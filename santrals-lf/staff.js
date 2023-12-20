@@ -1,271 +1,318 @@
-// Declare modal variables
-var addRequestModal, editItemModal, sendMessageModal;
+// Sample data for initial testing
+let staffList = [];
 
-// Execute code when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", function () {
-    // Initialize Bootstrap modals
-    addRequestModal = new bootstrap.Modal(document.getElementById('addRequestModal'), {
-        backdrop: 'static',
-        keyboard: false,
+// Initialize the "Add Request" modal
+const addRequestModal = new bootstrap.Modal(document.getElementById("addRequestModal"));
+
+// Function to render the staff list
+function renderStaffList() {
+    const staffContainer = document.getElementById("requestsContainer");
+    const staffListElement = document.getElementById("requestList");
+
+    // Clear previous list
+    staffListElement.innerHTML = "";
+
+    // Render each staff item
+    staffList.forEach((staffItem) => {
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item custom-list-item";
+        listItem.innerHTML = `
+            <div class="custom-list-item-content">
+                <h5 class="mb-1">Item Name: ${staffItem.itemName},  Date Lost: {${getCurrentDate()}} </h5>
+                <p class="mb-1">Category: ${staffItem.category}</p>
+            </div>
+            <div class="custom-list-item-buttons"> <!-- No Bootstrap classes for custom styling -->
+                <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
+                <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
+                <button class="btn btn-danger btn-sm" data-action="confirmDelete" data-id="${staffItem.id}">Delete</button>
+                <!-- Add "Text Student" button next to "View Details" button -->
+                <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
+            </div>
+        `;
+
+        staffListElement.appendChild(listItem);
     });
 
-    editItemModal = new bootstrap.Modal(document.getElementById('editItemModal'), {
-        backdrop: 'static',
-        keyboard: false,
-    });
+    staffContainer.appendChild(staffListElement);
+}
 
-    sendMessageModal = new bootstrap.Modal(document.getElementById('sendMessageModal'), {
-        backdrop: 'static',
-        keyboard: false,
-    });
+// Function to get the current date in the format YYYY-MM-DD
+function getCurrentDate() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
-    // Get DOM elements
-    var requestList = document.getElementById('requestList');
-    var sortByDateLost = document.getElementById('sortByDateLost');
-    var sortByDateFound = document.getElementById('sortByDateFound');
+// Function to add a new staff item
+function addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image) {
+    const newItem = {
+        id: staffList.length + 1,
+        itemName,
+        category,
+        lastLocation,
+        dateLost,
+        itemDescription,
+        image,
+    };
 
-    // Event listener for "Add Request" button click
-    document.getElementById('addRequestBtn').addEventListener('click', function () {
-        addRequestModal.show();
-    });
+    staffList.push(newItem);
 
-    // Event listener for "Submit Request" button click
-    document.getElementById('submitRequestBtn').addEventListener('click', function () {
-        // Retrieve input values
-        var itemName = document.getElementById('itemName').value.trim();
-        var category = document.getElementById('category').value.trim();
-        var lastLocation = document.getElementById('lastLocation').value.trim();
-        var dateLost = document.getElementById('dateLost').value.trim();
-        var itemDescription = document.getElementById('itemDescription').value.trim();
-        var imageInput = document.getElementById('image');
+    // Render the updated staff list
+    renderStaffList();
 
-        // Check if required fields are filled
-        if (itemName && category && lastLocation && dateLost && itemDescription) {
-            // Process image input
-            var image = imageInput.files.length > 0 ? imageInput.files[0] : null;
-            var imageUrl = image ? URL.createObjectURL(image) : null;
+    // Close the "Add Request" modal after adding a new staff item
+    const addRequestModal = document.getElementById("addRequestModal");
+    addRequestModal.style.display = "none";
 
-            // Get current date and time
-            var currentDate = new Date();
-            var dateTimeAdded = currentDate.toLocaleString();
+    // Remove the modal backdrop
+    const modalBackdrop = document.querySelector(".modal-backdrop");
+    if (modalBackdrop) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+    }
+}
 
-            // Create new list item
-            var newItem = document.createElement("li");
-            newItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-start");
-            newItem.innerHTML = `
-                <div class="d-flex align-items-start">
-                    ${imageUrl ? `<img src="${imageUrl}" alt="Uploaded Image" style="max-width: 200px; margin-right: 10px;">` : ''}
-                    <div>
-                        <strong>Item Name:</strong> ${itemName}<br>
-                        <strong>Category:</strong> ${category}<br>
-                        <strong>Date Added:</strong> ${dateTimeAdded}<br>
-                    </div>
-                </div>
-                <div class="text-end">
-                    <button class="btn btn-secondary mt-2 text-student-btn" data-bs-dismiss="modal" id="textStudentBtn">
-                        Text Student
-                    </button>
-                    <button class="btn btn-primary mt-2 view-details-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#viewDetailsModal"
-                            data-item-name="${itemName}"
-                            data-category="${category}"
-                            data-date-lost="${dateLost}"
-                            data-item-description="${itemDescription}"
-                            data-last-location="${lastLocation}">
-                        View Details
-                    </button>
-                    <button class="btn btn-warning mt-2 edit-item-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editItemModal"
-                            data-item-name="${itemName}"
-                            data-category="${category}"
-                            data-last-location="${lastLocation}"
-                            data-date-lost="${dateLost}"
-                            data-item-description="${itemDescription}">
-                        Edit
-                    </button>
-                </div>
-            `;
 
-            // Set custom properties for sorting
-            newItem.dateLost = new Date(dateLost);
-            newItem.dateFound = currentDate;
-            newItem.dateTimeAdded = currentDate;
+// Function to add a new staff item
+function addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image) {
+    const newItem = {
+        id: staffList.length + 1,
+        itemName,
+        category,
+        lastLocation,
+        dateLost,
+        itemDescription,
+        image,
+    };
 
-            // Append the new item to the list
-            requestList.appendChild(newItem);
+    staffList.push(newItem);
 
-            // Clear input fields
-            document.getElementById('itemName').value = '';
-            document.getElementById('category').value = '';
-            document.getElementById('lastLocation').value = '';
-            document.getElementById('dateLost').value = '';
-            document.getElementById('itemDescription').value = '';
-            document.getElementById('image').value = '';
+    // Render the updated staff list
+    renderStaffList();
 
-            // Close the "Add Request" modal
-            addRequestModal.hide();
+    // Close the "Add Request" modal after adding a new staff item
+    const addRequestModal = document.getElementById("addRequestModal");
+    addRequestModal.style.display = "none";
 
-            // Focus on the next input field
-            triggerEnterKeyPress('category');
-        } else {
-            // Alert if required fields are not filled
-            alert("Please fill in all required fields.");
+    // Remove the modal backdrop
+    const modalBackdrop = document.querySelector(".modal-backdrop");
+    if (modalBackdrop) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+    }
+}
+
+
+ 
+  // Function to view details of a staff item
+  function viewDetails(itemId) {
+    const selectedItem = staffList.find((item) => item.id === itemId);
+  
+    // Update the modal content with details
+    document.getElementById("viewDetailsDateLost").innerText = `Date Lost: ${selectedItem.dateLost}`;
+    document.getElementById("viewDetailsItemDescription").innerText = `Description: ${selectedItem.itemDescription}`;
+    document.getElementById("viewDetailsLastLocation").innerText = `Last Location: ${selectedItem.lastLocation}`;
+  
+    // Display the image, if available
+    const imageView = document.getElementById("imageView");
+    if (selectedItem.image) {
+      imageView.innerHTML = `<img src="${selectedItem.image}" alt="Item Image" class="img-fluid">`;
+    } else {
+      imageView.innerHTML = "No image available";
+    }
+  
+    // Show the details modal
+    const viewDetailsModal = new bootstrap.Modal(document.getElementById("viewDetailsModal"));
+    viewDetailsModal.show();
+  }
+  
+  // Function to edit a staff item
+  function editItem(itemId) {
+    const selectedItem = staffList.find((item) => item.id === itemId);
+  
+    // Update the modal inputs with existing details
+    document.getElementById("editItemName").value = selectedItem.itemName;
+    document.getElementById("editItemCategory").value = selectedItem.category;
+    document.getElementById("editItemLastLocation").value = selectedItem.lastLocation;
+    document.getElementById("editItemDateLost").value = selectedItem.dateLost;
+    document.getElementById("editItemDescription").value = selectedItem.itemDescription;
+  
+    // Show the edit modal
+    const editItemModal = new bootstrap.Modal(document.getElementById("editItemModal"));
+    editItemModal.show();
+  
+    // Save changes on button click
+    document.getElementById("saveChangesBtn").onclick = () => saveChanges(itemId);
+  }
+  
+  // Function to save changes after editing
+  function saveChanges(itemId) {
+    const selectedItemIndex = staffList.findIndex((item) => item.id === itemId);
+  
+    // Update item details with edited values
+    staffList[selectedItemIndex].itemName = document.getElementById("editItemName").value;
+    staffList[selectedItemIndex].category = document.getElementById("editItemCategory").value;
+    staffList[selectedItemIndex].lastLocation = document.getElementById("editItemLastLocation").value;
+    staffList[selectedItemIndex].dateLost = document.getElementById("editItemDateLost").value;
+    staffList[selectedItemIndex].itemDescription = document.getElementById("editItemDescription").value;
+  
+    // Close the modal after saving changes
+    const editItemModal = new bootstrap.Modal(document.getElementById("editItemModal"));
+    editItemModal.hide();
+  
+    // Render the updated staff list
+    renderStaffList();
+  } 
+  
+// Function to confirm item deletion
+function confirmDelete(itemId) {
+    // Set up the confirmation modal
+    const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
+    const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+    // Show the confirmation modal
+    confirmationModal.show();
+
+    // Handle delete button click
+    confirmDeleteBtn.onclick = () => {
+        // Remove the modal backdrop
+        const modalBackdrop = document.querySelector(".modal-backdrop");
+        if (modalBackdrop) {
+            modalBackdrop.parentNode.removeChild(modalBackdrop);
         }
-    });
 
-    // Event listener for "Date Lost" sort button click
-    sortByDateLost.addEventListener('click', function () {
-        sortItems('dateLost');
-    });
+        // Call the deleteItem function
+        deleteItem(itemId);
 
-    // Event listener for "Date Added" sort button click
-    sortByDateFound.addEventListener('click', function () {
-        sortItems('dateTimeAdded');
-    });
+        // Close the confirmation modal after deletion
+        confirmationModal.hide();
+    };
+}
 
-    // Event listeners for keyboard navigation
+  
+  // Function to delete a staff item
+  function deleteItem(itemId) {
+    // Find the index of the item to be deleted
+    const itemIndex = staffList.findIndex((item) => item.id === itemId);
+  
+    // Remove the item from the staff list
+    staffList.splice(itemIndex, 1);
+  
+    // Close the confirmation modal after deletion
+    const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
+    confirmationModal.hide();
+  
+    // Render the updated staff list
+    renderStaffList();
+  }
+  
+  // Initial rendering of the staff list
+  renderStaffList();
+
+// Event listener for "Add Request" button click
+document.getElementById('addRequestBtn').addEventListener('click', function () {
+    // Clear input fields when the modal is opened
+    document.getElementById('itemName').value = '';
+    document.getElementById('category').value = '';
+    document.getElementById('lastLocation').value = '';
+    document.getElementById('dateLost').value = '';
+    document.getElementById('itemDescription').value = '';
+    document.getElementById('image').value = '';
+
+    // Show the "Add Request" modal
+    const addRequestModal = new bootstrap.Modal(document.getElementById("addRequestModal"));
+
+    // Ensure the modal is not already shown before showing it again
+    if (!addRequestModal._isShown) {
+        addRequestModal.show();
+    }
+
+    // Add event listeners for handling "Enter" key navigation
     document.getElementById('itemName').addEventListener('keydown', function (event) {
-        handleEnterKeyPress(event, 'category');
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('category').focus();
+        }
     });
 
     document.getElementById('category').addEventListener('keydown', function (event) {
-        handleEnterKeyPress(event, 'lastLocation');
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('lastLocation').focus();
+        }
     });
 
     document.getElementById('lastLocation').addEventListener('keydown', function (event) {
-        handleEnterKeyPress(event, 'dateLost');
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('dateLost').focus();
+        }
     });
 
     document.getElementById('dateLost').addEventListener('keydown', function (event) {
-        handleEnterKeyPress(event, 'itemDescription');
-    });
-
-    document.getElementById('itemDescription').addEventListener('keydown', function (event) {
-        handleEnterKeyPress(event, 'image');
-    });
-
-    // Event listener for interactions within the request list
-    requestList.addEventListener('click', function (event) {
-        // Open "Send Message" modal on button click
-        if (event.target.classList.contains('text-student-btn')) {
-            sendMessageModal.show();
-        }
-
-        // Display details in modal on "View Details" button click
-        if (event.target.classList.contains('view-details-btn')) {
-            var dateLost = event.target.dataset.dateLost;
-            var itemDescription = event.target.dataset.itemDescription;
-            var lastLocation = event.target.dataset.lastLocation;
-
-            console.log('Last Location:', lastLocation);
-            console.log('Date Lost:', dateLost);
-            console.log('Item Description:', itemDescription);
-
-            document.getElementById('viewDetailsLastLocation').textContent = `Last Location: ${lastLocation}`;
-            document.getElementById('viewDetailsDateLost').textContent = `Date Lost: ${dateLost}`;
-            document.getElementById('viewDetailsItemDescription').textContent = `Item Description: ${itemDescription}`;
-
-            // Show the "View Details" modal
-            $('#viewDetailsModal').modal('show');
-        }
-
-        // Populate "Edit Item" modal on "Edit" button click
-        if (event.target.classList.contains('edit-item-btn')) {
-            var itemName = event.target.dataset.itemName;
-            var category = event.target.dataset.category;
-            var lastLocation = event.target.dataset.lastLocation;
-            var dateLost = event.target.dataset.dateLost;
-            var itemDescription = event.target.dataset.itemDescription;
-
-            // Fill in the input fields with existing data
-            document.getElementById('editItemName').value = itemName;
-            document.getElementById('editItemCategory').value = category;
-            document.getElementById('editItemLastLocation').value = lastLocation;
-            document.getElementById('editItemDateLost').value = dateLost;
-            document.getElementById('editItemDescription').value = itemDescription;
-
-            // Show the "Edit Item" modal
-            editItemModal.show();
-        }
-    });
-
-    // Event listener for "Send Message" button click
-    document.getElementById('sendMessageBtn').addEventListener('click', function () {
-        var messageContent = document.getElementById('messageContent').value.trim();
-
-        // Add your logic to send the message (e.g., AJAX request, etc.)
-
-        // Close the "Send Message" modal after sending the message
-        sendMessageModal.hide();
-    });
-
-    // Event listener for "Save Changes" button click
-    document.getElementById('saveChangesBtn').addEventListener('click', function () {
-        // Retrieve edited item details
-        var editedItemName = document.getElementById('editItemName').value.trim();
-        var editedItemCategory = document.getElementById('editItemCategory').value.trim();
-        var editedItemLastLocation = document.getElementById('editItemLastLocation').value.trim();
-        var editedItemDateLost = document.getElementById('editItemDateLost').value.trim();
-        var editedItemDescription = document.getElementById('editItemDescription').value.trim();
-
-        console.log("Save Changes button clicked!");
-        console.log("Edited Item Name:", editedItemName);
-        console.log("Edited Item Category:", editedItemCategory);
-
-        // Get the selected item for editing
-        var selectedItem = document.querySelector('.edit-item-btn:focus').closest('li');
-        console.log("Selected Item:", selectedItem);
-
-        // Update displayed details
-        selectedItem.querySelector('strong:nth-child(1)').textContent = `Item Name: ${editedItemName}`;
-        selectedItem.querySelector('strong:nth-child(2)').textContent = `Category: ${editedItemCategory}`;
-
-        // Update dataset for future reference
-        selectedItem.dataset.itemName = editedItemName;
-        selectedItem.dataset.category = editedItemCategory;
-        selectedItem.dataset.lastLocation = editedItemLastLocation;
-        selectedItem.dataset.dateLost = editedItemDateLost;
-        selectedItem.dataset.itemDescription = editedItemDescription;
-
-        // Close the "Edit Item" modal
-        editItemModal.hide();
-    });
-
-    // Handle Enter key press for navigation
-    function handleEnterKeyPress(event, nextInputId) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            triggerEnterKeyPress(nextInputId);
+            document.getElementById('itemDescription').focus();
         }
-    }
+    });
 
-    // Trigger Enter key press for navigation
-    function triggerEnterKeyPress(nextInputId) {
-        var nextInput = document.getElementById(nextInputId);
-        if (nextInput) {
-            nextInput.focus();
+});
+
+  
+// Event listener for "Submit Request" button click
+document.getElementById('submitRequestBtn').addEventListener('click', function () {
+    // Retrieve input values
+    var itemName = document.getElementById('itemName').value.trim();
+    var category = document.getElementById('category').value.trim();
+    var lastLocation = document.getElementById('lastLocation').value.trim();
+    var dateLost = document.getElementById('dateLost').value.trim();
+    var itemDescription = document.getElementById('itemDescription').value.trim();
+    var imageInput = document.getElementById('image');
+
+    // Check if required fields are filled
+    if (itemName && category && lastLocation && dateLost && itemDescription) {
+        // Process image input
+        var image = '';
+        if (imageInput.files.length > 0) {
+            var selectedImage = imageInput.files[0];
+            image = URL.createObjectURL(selectedImage);
         }
-    }
 
-    // Sort items based on the specified criterion
-    function sortItems(sortCriterion) {
-        var items = Array.from(requestList.children);
+        // Add the new staff item
+        addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image);
 
-        items.sort(function (a, b) {
-            var dateA = a[sortCriterion];
-            var dateB = b[sortCriterion];
-
-            return dateB - dateA;
-        });
-
-        items.forEach(function (item) {
-            requestList.removeChild(item);
-        });
-
-        items.forEach(function (item) {
-            requestList.appendChild(item);
-        });
+        // Close the modal after adding a new staff item
+        const addRequestModal = new bootstrap.Modal(document.getElementById("addRequestModal"));
+        addRequestModal.hide();
+    } else {
+        // Alert the user if required fields are not filled
+        alert('Please fill in all required fields.');
     }
 });
+
+
+
+
+  
+// Event delegation for dynamically added buttons within the staff list
+document.getElementById('requestsContainer').addEventListener('click', function (event) {
+    const target = event.target;
+
+    // Check if the clicked element has the "data-action" attribute
+    const action = target.getAttribute('data-action');
+    const itemId = target.getAttribute('data-id');
+
+    if (action && itemId) {
+        // Perform actions based on the data-action attribute
+        if (action === 'viewDetails') {
+            viewDetails(parseInt(itemId, 10));
+        } else if (action === 'editItem') {
+            editItem(parseInt(itemId, 10));
+        } else if (action === 'confirmDelete') {
+            confirmDelete(parseInt(itemId, 10));
+        } else if (action === 'textStudent') {
+            console.log('Text Student button clicked for item ID:', itemId);
+        }
+    }
+});
+  
