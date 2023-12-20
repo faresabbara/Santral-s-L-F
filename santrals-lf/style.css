@@ -1,3 +1,4 @@
+/* Header styles */
 .header-bg {
     background-color: #970b0b;
 }
@@ -9,18 +10,7 @@ button {
     transition: background 0.3s;
 }
 
-.buttons button:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-
-.search button.search-btn {
-    border: none;
-    background: none;
-    color: white;
-    transition: background 0.3s;
-}
-
+.buttons button:hover,
 .search button.search-btn:hover {
     background: rgba(255, 255, 255, 0.2);
 }
@@ -37,41 +27,94 @@ button {
     background-color: #681414;
 }
 
-.col-w-img {
-    background-image: url(img/col-img.jpg);
-    background-size: cover;
-    height: 100vh;  
-}
-
+/* Search input styles */
 .search input {
     border-radius: 200px;
 }
 
 .search input::placeholder {
-    color: #aaa; 
+    color: #aaa;
 }
 
 .search button.search-btn {
     border-radius: 20px;
-    margin-left: 5px; 
+    margin-left: 5px;
 }
 
 .search input:focus::placeholder {
     color: transparent;
 }
+
+/* Button styles */
 .custom-btn {
-    background-color: #B11111;
-    border-color: #B11111; 
-    color: white; 
+    background-color: #b11111;
+    border-color: #b11111;
+    color: white;
 }
 
 .buttons a:hover {
     color: #f8f9fa;
     text-decoration: underline;
 }
+
 .buttons a {
     color: white;
     text-decoration: none;
     margin-right: 10px; /* Add right margin for spacing */
     transition: color 0.3s ease;
+}
+
+/* Add space between list items */
+.list-group-item {
+    background-color: #f1f1f1; /* Change this color to the grey shade you prefer */
+    margin-bottom: 30px; /* Adjust the value as needed */
+}
+
+#requestsContainer {
+    max-height: 400px; /* set a maximum height for the container */
+    overflow-y: auto; /* add a vertical scrollbar if the content overflows */
+}
+
+/* Media query for desktop */
+@media (min-width: 768px) {
+    /* Additional styles for desktop layout */
+    .list-group-item {
+        display: flex;
+        flex-direction: row; /* Keep the buttons and information in the same row */
+        align-items: flex-start; /* Align items to the top of the container */
+        justify-content: space-between; /* Add space between buttons and information */
+    }
+
+    .list-group-item .info-container {
+        flex-basis: 60%; /* Take up 60% width for information on the left */
+    }
+
+    .list-group-item .info-container h5,
+    .list-group-item .info-container small {
+        font-size: 25234px; /* Increase the font size for item name and last location */
+    }
+
+    .list-group-item .info-container p {
+        font-size: 20px; /* Increase the font size for item description */
+    }
+
+    .list-group-item .buttons-container {
+        flex-basis: 40%; /* Take up 40% width for buttons on the right */
+        display: flex;
+        justify-content: flex-end; /* Align buttons to the right */
+        flex-wrap: wrap; /* Allow buttons to wrap to the next line if needed */
+    }
+
+    .list-group-item button {
+        font-size: 14px; /* Adjust the font size for buttons as needed */
+        width: auto; /* Allow buttons to take their natural width */
+        margin-bottom: 5px; /* Add space between buttons */
+    }
+}
+
+/* Adjust the margin for the buttons in mobile layout */
+@media (max-width: 767px) {
+    .list-group-item .buttons-container {
+        margin-left: auto; /* Move buttons to the right */
+    }
 }
