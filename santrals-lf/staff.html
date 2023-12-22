@@ -9,7 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-e4700jmlpL/Al5l/8C1vJSvH8l1MH7w2x68z1+i/aJ3BweNWoEgU1wm/rIm+UoMI" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha384-e4700jmlpL/Al5l/8C1vJSvH8l1MH7w2x68z1+i/aJ3BweNWoEgU1wm/rIm+UoMI"
+        crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
@@ -34,9 +36,9 @@
             <div class="row">
                 <div class="col buttons h5">
                     <!-- User icon and navigation links -->
-                    <button>
+                    <button data-bs-toggle="modal" data-bs-target="#profileModal">
                         <i class="bi bi-person-circle me-1 h1"></i>
-                    </button>
+                    </button>                    
                     <a href="myrequests.html">Requests</a>
                     <a href="L&FOffice.html">L&F Office</a>
                     <button>
@@ -69,8 +71,8 @@
                             Sort By
                         </button>
                         <div class="dropdown-menu" aria-labelledby="sortByBtn">
-                            <a class="dropdown-item" href="#" id="sortByDateLost">Date Lost</a>
-                            <a class="dropdown-item" href="#" id="sortByDateFound">Date Added</a>
+                            <a class="dropdown-item" href="#" id="sortByDateLostBtn">Date Lost</a>
+                            <a class="dropdown-item" href="#" id="sortByDateAddedBtn">Date Added</a>
                         </div>
                     </div>
                 </div>
@@ -244,6 +246,50 @@
         </div>
     </div>
 
+<!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-size">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Buttons for profile actions -->
+                <div class="mb-3">
+                    <button class="btn btn-secondary btn-md" id="settingsBtn">Settings</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-dark btn-md" id="darkModeBtn">Dark Mode</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-danger btn-md" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal for Logout -->
+<div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutConfirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="pro.html" type="button" class="btn btn-danger" id="confirmLogoutBtn">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+    
     <script src="staff.js"></script>
 </body>
 
