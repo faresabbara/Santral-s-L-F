@@ -16,12 +16,16 @@ function renderStaffList() {
     staffList.forEach((staffItem) => {
         const listItem = document.createElement("li");
         listItem.className = "list-group-item custom-list-item";
+
+        // Format the date as "MM/DD/YYYY"
+        const formattedDateAdded = new Date(staffItem.dateAdded).toLocaleDateString('en-US');
+
         listItem.innerHTML = `
             <div class="custom-list-item-content">
-                <h5 class="mb-1">Item Name: ${staffItem.itemName},  Date Lost: {${getCurrentDate()}} </h5>
+                <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
                 <p class="mb-1">Category: ${staffItem.category}</p>
             </div>
-            <div class="custom-list-item-buttons"> <!-- No Bootstrap classes for custom styling -->
+            <div class="custom-list-item-buttons">
                 <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
                 <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
                 <button class="btn btn-danger btn-sm" data-action="confirmDelete" data-id="${staffItem.id}">Delete</button>
@@ -35,26 +39,20 @@ function renderStaffList() {
 
     staffContainer.appendChild(staffListElement);
 }
-
-// Function to get the current date in the format YYYY-MM-DD
-function getCurrentDate() {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
-
 // Function to add a new staff item
 function addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image) {
+    const currentDate = new Date(); // Get the current date and time
+    const formattedDate = currentDate.toISOString().split('T')[0]; // Format it as YYYY-MM-DD
+
     const newItem = {
         id: staffList.length + 1,
-        itemName,
+        itemName: itemName, // Use the original item name without the date
         category,
         lastLocation,
         dateLost,
         itemDescription,
         image,
+        dateAdded: currentDate, // Add the dateAdded property to the new item
     };
 
     staffList.push(newItem);
@@ -72,98 +70,74 @@ function addStaffItem(itemName, category, lastLocation, dateLost, itemDescriptio
         modalBackdrop.parentNode.removeChild(modalBackdrop);
     }
 }
-
-
-// Function to add a new staff item
-function addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image) {
-    const newItem = {
-        id: staffList.length + 1,
-        itemName,
-        category,
-        lastLocation,
-        dateLost,
-        itemDescription,
-        image,
-    };
-
-    staffList.push(newItem);
-
-    // Render the updated staff list
-    renderStaffList();
-
-    // Close the "Add Request" modal after adding a new staff item
-    const addRequestModal = document.getElementById("addRequestModal");
-    addRequestModal.style.display = "none";
-
-    // Remove the modal backdrop
-    const modalBackdrop = document.querySelector(".modal-backdrop");
-    if (modalBackdrop) {
-        modalBackdrop.parentNode.removeChild(modalBackdrop);
-    }
-}
-
-
- 
-  // Function to view details of a staff item
-  function viewDetails(itemId) {
+// Function to view details of a staff item
+function viewDetails(itemId) {
     const selectedItem = staffList.find((item) => item.id === itemId);
-  
+
     // Update the modal content with details
     document.getElementById("viewDetailsDateLost").innerText = `Date Lost: ${selectedItem.dateLost}`;
     document.getElementById("viewDetailsItemDescription").innerText = `Description: ${selectedItem.itemDescription}`;
     document.getElementById("viewDetailsLastLocation").innerText = `Last Location: ${selectedItem.lastLocation}`;
-  
+
     // Display the image, if available
     const imageView = document.getElementById("imageView");
     if (selectedItem.image) {
-      imageView.innerHTML = `<img src="${selectedItem.image}" alt="Item Image" class="img-fluid">`;
+        imageView.innerHTML = `<img src="${selectedItem.image}" alt="Item Image" class="img-fluid">`;
     } else {
-      imageView.innerHTML = "No image available";
+        imageView.innerHTML = "No image available";
     }
-  
+
     // Show the details modal
     const viewDetailsModal = new bootstrap.Modal(document.getElementById("viewDetailsModal"));
     viewDetailsModal.show();
-  }
-  
-  // Function to edit a staff item
-  function editItem(itemId) {
+}
+
+// Function to edit a staff item
+function editItem(itemId) {
     const selectedItem = staffList.find((item) => item.id === itemId);
-  
+
     // Update the modal inputs with existing details
     document.getElementById("editItemName").value = selectedItem.itemName;
     document.getElementById("editItemCategory").value = selectedItem.category;
     document.getElementById("editItemLastLocation").value = selectedItem.lastLocation;
     document.getElementById("editItemDateLost").value = selectedItem.dateLost;
     document.getElementById("editItemDescription").value = selectedItem.itemDescription;
-  
+
     // Show the edit modal
     const editItemModal = new bootstrap.Modal(document.getElementById("editItemModal"));
     editItemModal.show();
-  
+
     // Save changes on button click
     document.getElementById("saveChangesBtn").onclick = () => saveChanges(itemId);
-  }
-  
-  // Function to save changes after editing
-  function saveChanges(itemId) {
+}
+
+// Function to save changes after editing
+function saveChanges(itemId) {
     const selectedItemIndex = staffList.findIndex((item) => item.id === itemId);
-  
+
     // Update item details with edited values
     staffList[selectedItemIndex].itemName = document.getElementById("editItemName").value;
     staffList[selectedItemIndex].category = document.getElementById("editItemCategory").value;
     staffList[selectedItemIndex].lastLocation = document.getElementById("editItemLastLocation").value;
     staffList[selectedItemIndex].dateLost = document.getElementById("editItemDateLost").value;
     staffList[selectedItemIndex].itemDescription = document.getElementById("editItemDescription").value;
-  
+
     // Close the modal after saving changes
-    const editItemModal = new bootstrap.Modal(document.getElementById("editItemModal"));
-    editItemModal.hide();
-  
+    const editItemModal = document.getElementById("editItemModal");
+    editItemModal.style.display = "none";
+
+    // Remove the modal backdrop
+    const modalBackdrop = document.querySelector(".modal-backdrop");
+    if (modalBackdrop) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+    }
+
     // Render the updated staff list
     renderStaffList();
-  } 
-  
+}
+
+
+
 // Function to confirm item deletion
 function confirmDelete(itemId) {
     // Set up the confirmation modal
@@ -189,25 +163,36 @@ function confirmDelete(itemId) {
     };
 }
 
-  
-  // Function to delete a staff item
-  function deleteItem(itemId) {
+// Function to delete a staff item
+function deleteItem(itemId) {
     // Find the index of the item to be deleted
     const itemIndex = staffList.findIndex((item) => item.id === itemId);
-  
+
     // Remove the item from the staff list
     staffList.splice(itemIndex, 1);
-  
+
     // Close the confirmation modal after deletion
     const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
     confirmationModal.hide();
-  
+
     // Render the updated staff list
     renderStaffList();
-  }
-  
-  // Initial rendering of the staff list
-  renderStaffList();
+}
+
+// Function to sort staff list by date added in descending order
+function sortByDateAdded() {
+    staffList.sort((a, b) => b.id - a.id);
+    renderStaffList();
+}
+
+// Function to sort staff list by date lost in descending order
+function sortByDateLost() {
+    staffList.sort((a, b) => new Date(b.dateLost) - new Date(a.dateLost));
+    renderStaffList();
+}
+
+// Initial rendering of the staff list
+renderStaffList();
 
 // Event listener for "Add Request" button click
 document.getElementById('addRequestBtn').addEventListener('click', function () {
@@ -255,10 +240,8 @@ document.getElementById('addRequestBtn').addEventListener('click', function () {
             document.getElementById('itemDescription').focus();
         }
     });
-
 });
 
-  
 // Event listener for "Submit Request" button click
 document.getElementById('submitRequestBtn').addEventListener('click', function () {
     // Retrieve input values
@@ -290,10 +273,6 @@ document.getElementById('submitRequestBtn').addEventListener('click', function (
     }
 });
 
-
-
-
-  
 // Event delegation for dynamically added buttons within the staff list
 document.getElementById('requestsContainer').addEventListener('click', function (event) {
     const target = event.target;
@@ -315,4 +294,83 @@ document.getElementById('requestsContainer').addEventListener('click', function 
         }
     }
 });
-  
+
+// Event listener for "Sort By Date Added" button click
+document.getElementById('sortByDateAddedBtn').addEventListener('click', function () {
+    sortByDateAdded();
+});
+
+// Event listener for "Sort By Date Lost" button click
+document.getElementById('sortByDateLostBtn').addEventListener('click', function () {
+    sortByDateLost();
+});
+// Event listener for "Search" button click
+document.getElementById('searchBtn').addEventListener('click', function () {
+    performSearch();
+});
+
+// Event listener for "Enter" key press in the search input field
+document.getElementById('searchInput').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        performSearch();
+    }
+});
+
+// Function to perform search
+function performSearch() {
+    // Call the search function with the input value
+    searchItems(document.getElementById('searchInput').value.trim().toLowerCase());
+}
+
+// Function to search for items
+function searchItems(searchTerm) {
+
+    // If the search term is empty, display all items
+    if (!searchTerm) {
+        renderStaffList();
+        return;
+    }
+
+    // Filter items based on matching category or item name
+    const filteredItems = staffList.filter(item =>
+        item.category.toLowerCase().includes(searchTerm) ||
+        item.itemName.toLowerCase().includes(searchTerm)
+    );
+
+    // Render the filtered items
+    renderFilteredItems(filteredItems);
+}
+
+// Function to render the filtered items
+function renderFilteredItems(filteredItems) {
+    const staffContainer = document.getElementById("requestsContainer");
+    const staffListElement = document.getElementById("requestList");
+
+    // Clear previous list
+    staffListElement.innerHTML = "";
+
+    // Render each filtered item
+    filteredItems.forEach((staffItem) => {
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item custom-list-item";
+
+        const formattedDateAdded = new Date(staffItem.dateAdded).toLocaleDateString('en-US');
+
+        listItem.innerHTML = `
+            <div class="custom-list-item-content">
+                <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
+                <p class="mb-1">Category: ${staffItem.category}</p>
+            </div>
+            <div class="custom-list-item-buttons">
+                <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
+                <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
+                <button class="btn btn-danger btn-sm" data-action="confirmDelete" data-id="${staffItem.id}">Delete</button>
+                <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
+            </div>
+        `;
+
+        staffListElement.appendChild(listItem);
+    });
+
+    staffContainer.appendChild(staffListElement);
+}
