@@ -17,7 +17,7 @@
         <div class="container-fluid header-bg p-4">
             <div class="row">
                 <div class="col my-auto mx-auto">
-                    <h1>Santral's L&F</h1>
+                    <h1><a href="user.html">Santral's L&F</a></h1>
                 </div>
                 <div class="col-auto ">
                     <!-- Logo image -->
@@ -29,10 +29,10 @@
         <div class="container-fluid bg-menu p-4">
             <div class="row">
                 <div class="col buttons h5">
-                    <button>
+                    <!-- User icon and navigation links -->
+                    <button data-bs-toggle="modal" data-bs-target="#profileModal">
                         <i class="bi bi-person-circle me-1 h1"></i>
-                         <!-- User icon and navigation links -->
-                    </button>
+                    </button> 
                     <a href="myrequests.html">My Requests</a>
                     <a href="L&FOffice.html">L&F Office</a>
                     <button>
@@ -74,6 +74,7 @@
             </ul>
         </div>
     </header>
+    
    <!-- "Add Request" modal -->
     <div class="modal fade" id="addRequestModal" tabindex="-1" aria-labelledby="addRequestModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -116,25 +117,72 @@
         </div>
     </div>
 
-       <!-- "View Details" modal -->
-    <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewDetailsModalLabel">Item Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- "View Details" modal -->
+<div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewDetailsModalLabel">Item Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p>item id</p>
+                    <p id="viewDetailsLastLocation"></p>
+                    <p id="viewDetailsDateLost"></p>
+                    <p id="viewDetailsItemDescription"></p>
                 </div>
-                <div class="modal-body">
-                    <div>
-                        <p>item id</p>
-                        <p id="viewDetailsLastLocation"></p>
-                        <p id="viewDetailsDateLost"></p>
-                        <p id="viewDetailsItemDescription"></p>
-                    </div>
+                <!-- Container for displaying the image -->
+                <div id="detailsImageContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-size">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Buttons for profile actions -->
+                <div class="mb-3">
+                    <button class="btn btn-secondary btn-md" id="settingsBtn">Settings</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-dark btn-md" id="darkModeBtn">Dark Mode</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-danger btn-md" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Confirmation Modal for Logout -->
+<div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutConfirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="pro.html" type="button" class="btn btn-danger" id="confirmLogoutBtn">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <script src="user.js"></script>
 </body>
