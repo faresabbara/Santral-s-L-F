@@ -191,12 +191,10 @@ function sortByDateLost() {
     renderStaffList();
 }
 
-// Initial rendering of the staff list
 renderStaffList();
 
 // Event listener for "Add Request" button click
 document.getElementById('addRequestBtn').addEventListener('click', function () {
-    // Clear input fields when the modal is opened
     document.getElementById('itemName').value = '';
     document.getElementById('category').value = '';
     document.getElementById('lastLocation').value = '';
@@ -254,35 +252,31 @@ document.getElementById('submitRequestBtn').addEventListener('click', function (
 
     // Check if required fields are filled
     if (itemName && category && lastLocation && dateLost && itemDescription) {
-        // Process image input
         var image = '';
         if (imageInput.files.length > 0) {
             var selectedImage = imageInput.files[0];
             image = URL.createObjectURL(selectedImage);
         }
 
-        // Add the new staff item
         addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image);
 
-        // Close the modal after adding a new staff item
+    
         const addRequestModal = new bootstrap.Modal(document.getElementById("addRequestModal"));
         addRequestModal.hide();
-    } else {
-        // Alert the user if required fields are not filled
+    } else {    
         alert('Please fill in all required fields.');
     }
 });
 
-// Event delegation for dynamically added buttons within the staff list
+
 document.getElementById('requestsContainer').addEventListener('click', function (event) {
     const target = event.target;
 
-    // Check if the clicked element has the "data-action" attribute
     const action = target.getAttribute('data-action');
     const itemId = target.getAttribute('data-id');
 
     if (action && itemId) {
-        // Perform actions based on the data-action attribute
+
         if (action === 'viewDetails') {
             viewDetails(parseInt(itemId, 10));
         } else if (action === 'editItem') {
@@ -295,21 +289,17 @@ document.getElementById('requestsContainer').addEventListener('click', function 
     }
 });
 
-// Event listener for "Sort By Date Added" button click
 document.getElementById('sortByDateAddedBtn').addEventListener('click', function () {
     sortByDateAdded();
 });
 
-// Event listener for "Sort By Date Lost" button click
 document.getElementById('sortByDateLostBtn').addEventListener('click', function () {
     sortByDateLost();
 });
-// Event listener for "Search" button click
 document.getElementById('searchBtn').addEventListener('click', function () {
     performSearch();
 });
 
-// Event listener for "Enter" key press in the search input field
 document.getElementById('searchInput').addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         performSearch();
@@ -318,30 +308,24 @@ document.getElementById('searchInput').addEventListener('keydown', function (eve
 
 // Function to perform search
 function performSearch() {
-    // Call the search function with the input value
     searchItems(document.getElementById('searchInput').value.trim().toLowerCase());
 }
 
 // Function to search for items
 function searchItems(searchTerm) {
-
-    // If the search term is empty, display all items
     if (!searchTerm) {
         renderStaffList();
         return;
     }
 
-    // Filter items based on matching category or item name
     const filteredItems = staffList.filter(item =>
         item.category.toLowerCase().includes(searchTerm) ||
         item.itemName.toLowerCase().includes(searchTerm)
     );
 
-    // Render the filtered items
     renderFilteredItems(filteredItems);
 }
 
-// Function to render the filtered items
 function renderFilteredItems(filteredItems) {
     const staffContainer = document.getElementById("requestsContainer");
     const staffListElement = document.getElementById("requestList");
