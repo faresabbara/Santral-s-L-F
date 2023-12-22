@@ -1,4 +1,4 @@
-/* Header styles */
+ 
 .header-bg {
     background-color: #970b0b;
 }
@@ -60,61 +60,70 @@ button {
 .buttons a {
     color: white;
     text-decoration: none;
-    margin-right: 10px; /* Add right margin for spacing */
+    margin-right: 10px; 
     transition: color 0.3s ease;
 }
 
-/* Add space between list items */
+ 
 .list-group-item {
-    background-color: #f1f1f1; /* Change this color to the grey shade you prefer */
-    margin-bottom: 30px; /* Adjust the value as needed */
+    background-color: #f1f1f1; 
+    margin-bottom: 30px;  
 }
 
 #requestsContainer {
-    max-height: 400px; /* set a maximum height for the container */
-    overflow-y: auto; /* add a vertical scrollbar if the content overflows */
+    max-height: 400px;  
+    overflow-y: auto; 
 }
 
-/* Media query for desktop */
+
 @media (min-width: 768px) {
-    /* Additional styles for desktop layout */
+  
     .list-group-item {
         display: flex;
-        flex-direction: row; /* Keep the buttons and information in the same row */
-        align-items: flex-start; /* Align items to the top of the container */
-        justify-content: space-between; /* Add space between buttons and information */
+        flex-direction: row;
+        align-items: flex-start; 
+        justify-content: space-between; 
     }
 
     .list-group-item .info-container {
-        flex-basis: 60%; /* Take up 60% width for information on the left */
+        flex-basis: 60%;
     }
 
     .list-group-item .info-container h5,
     .list-group-item .info-container small {
-        font-size: 25234px; /* Increase the font size for item name and last location */
+        font-size: 25234px;
     }
 
     .list-group-item .info-container p {
-        font-size: 20px; /* Increase the font size for item description */
+        font-size: 20px;
     }
 
     .list-group-item .buttons-container {
-        flex-basis: 40%; /* Take up 40% width for buttons on the right */
+        flex-basis: 40%; 
         display: flex;
-        justify-content: flex-end; /* Align buttons to the right */
-        flex-wrap: wrap; /* Allow buttons to wrap to the next line if needed */
+        justify-content: flex-end; 
+        flex-wrap: wrap; 
     }
 
     .list-group-item button {
-        font-size: 14px; /* Adjust the font size for buttons as needed */
-        width: auto; /* Allow buttons to take their natural width */
-        margin-bottom: 5px; /* Add space between buttons */
+        font-size: 14px; 
+        width: auto;
+        margin-bottom: 5px; 
     }
 }
 
-/* Adjust the margin for the buttons in mobile layout */
+
 @media (max-width: 767px) {
     .list-group-item .buttons-container {
-        margin-left: auto; /* Move buttons to the right */
+        margin-left: auto; 
     }
+}
+
+.custom-modal-size {
+    max-width: 170px; 
+    width: 80%;
+}
+a {
+    color: rgb(255, 255, 255); 
+    text-decoration: none; 
 }
