@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('submitRequestBtn').addEventListener('click', function () {
         var itemName = document.getElementById('itemName').value.trim();
         var category = document.getElementById('category').value.trim();
-        var lastLocation = document.getElementById('lastLocation').value.trim();
+        var lastLocation = document.getElementById('lastLocation').value;
         var dateLost = document.getElementById('dateLost').value.trim();
         var itemDescription = document.getElementById('itemDescription').value.trim();
         var imageInput = document.getElementById('image');
