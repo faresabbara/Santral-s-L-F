@@ -20,39 +20,41 @@ function renderStaffList() {
         // Format the date as "MM/DD/YYYY"
         const formattedDateAdded = new Date(staffItem.dateAdded).toLocaleDateString('en-US');
 
-        listItem.innerHTML = `
-            <div class="custom-list-item-content">
-                <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
-                <p class="mb-1">Category: ${staffItem.category}</p>
-            </div>
-            <div class="custom-list-item-buttons">
-                <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
-                <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
-                <button class="btn btn-danger btn-sm" data-action="confirmDelete" data-id="${staffItem.id}">Delete</button>
-                <!-- Add "Text Student" button next to "View Details" button -->
-                <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
-            </div>
-        `;
+// Update the listItem.innerHTML in renderStaffList
+listItem.innerHTML = `
+    <div class="custom-list-item-content">
+        <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
+        <p class="mb-1">Category: ${staffItem.category}</p>
+    </div>
+    <div class="custom-list-item-buttons">
+        <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
+        <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
+        <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
+        <button class="btn btn-secondary btn-sm" data-action="status" data-id="${staffItem.id}">Status</button>
+    </div>
+`;
+
+
 
         staffListElement.appendChild(listItem);
     });
 
     staffContainer.appendChild(staffListElement);
 }
-// Function to add a new staff item
+
 function addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image) {
     const currentDate = new Date(); // Get the current date and time
     const formattedDate = currentDate.toISOString().split('T')[0]; // Format it as YYYY-MM-DD
 
     const newItem = {
         id: staffList.length + 1,
-        itemName: itemName, // Use the original item name without the date
-        category,
-        lastLocation,
-        dateLost,
-        itemDescription,
-        image,
-        dateAdded: currentDate, // Add the dateAdded property to the new item
+        itemName: itemName,
+        category: category, // Use the category from the dropdown
+        lastLocation: lastLocation,
+        dateLost: dateLost,
+        itemDescription: itemDescription,
+        image: image,
+        dateAdded: currentDate,
     };
 
     staffList.push(newItem);
@@ -60,21 +62,25 @@ function addStaffItem(itemName, category, lastLocation, dateLost, itemDescriptio
     // Render the updated staff list
     renderStaffList();
 
-    // Close the "Add Request" modal after adding a new staff item
-    const addRequestModal = document.getElementById("addRequestModal");
-    addRequestModal.style.display = "none";
+    // Hide the modal by setting its display property to 'none'
+    const addRequestModalElement = document.getElementById("addRequestModal");
+    addRequestModalElement.style.display = 'none';
 
-    // Remove the modal backdrop
+    // Remove the modal backdrop if it exists
     const modalBackdrop = document.querySelector(".modal-backdrop");
     if (modalBackdrop) {
         modalBackdrop.parentNode.removeChild(modalBackdrop);
     }
 }
+
+
 // Function to view details of a staff item
 function viewDetails(itemId) {
     const selectedItem = staffList.find((item) => item.id === itemId);
 
     // Update the modal content with details
+    document.getElementById("viewDetailsStudentID").innerText = `User ID: `;
+    document.getElementById("viewDetailsItemID").innerText = `Item ID:`;
     document.getElementById("viewDetailsDateLost").innerText = `Date Lost: ${selectedItem.dateLost}`;
     document.getElementById("viewDetailsItemDescription").innerText = `Description: ${selectedItem.itemDescription}`;
     document.getElementById("viewDetailsLastLocation").innerText = `Last Location: ${selectedItem.lastLocation}`;
@@ -92,39 +98,44 @@ function viewDetails(itemId) {
     viewDetailsModal.show();
 }
 
-// Function to edit a staff item
 function editItem(itemId) {
     const selectedItem = staffList.find((item) => item.id === itemId);
 
     // Update the modal inputs with existing details
     document.getElementById("editItemName").value = selectedItem.itemName;
     document.getElementById("editItemCategory").value = selectedItem.category;
-    document.getElementById("editItemLastLocation").value = selectedItem.lastLocation;
+    document.getElementById("editLastLocation").value = selectedItem.lastLocation;
     document.getElementById("editItemDateLost").value = selectedItem.dateLost;
     document.getElementById("editItemDescription").value = selectedItem.itemDescription;
 
-    // Show the edit modal
+    // Initialize the edit modal
     const editItemModal = new bootstrap.Modal(document.getElementById("editItemModal"));
+
+    // Show the edit modal
     editItemModal.show();
 
     // Save changes on button click
-    document.getElementById("saveChangesBtn").onclick = () => saveChanges(itemId);
+    const saveChangesBtn = document.getElementById("saveChangesBtn");
+    saveChangesBtn.addEventListener('click', () => saveChanges(itemId, editItemModal));
+
+    // Show confirmation modal on "Delete Item" button click
+    const deleteItemBtn = document.getElementById("deleteItemBtn");
+    deleteItemBtn.addEventListener('click', () => confirmDelete(itemId, editItemModal));
 }
 
 // Function to save changes after editing
-function saveChanges(itemId) {
+function saveChanges(itemId, modalInstance) {
     const selectedItemIndex = staffList.findIndex((item) => item.id === itemId);
 
     // Update item details with edited values
     staffList[selectedItemIndex].itemName = document.getElementById("editItemName").value;
-    staffList[selectedItemIndex].category = document.getElementById("editItemCategory").value;
-    staffList[selectedItemIndex].lastLocation = document.getElementById("editItemLastLocation").value;
+    staffList[selectedItemIndex].category = document.getElementById("editItemCategory").value; // Use the category from the dropdown
+    staffList[selectedItemIndex].lastLocation = document.getElementById("editLastLocation").value;
     staffList[selectedItemIndex].dateLost = document.getElementById("editItemDateLost").value;
     staffList[selectedItemIndex].itemDescription = document.getElementById("editItemDescription").value;
 
     // Close the modal after saving changes
-    const editItemModal = document.getElementById("editItemModal");
-    editItemModal.style.display = "none";
+    modalInstance.hide();
 
     // Remove the modal backdrop
     const modalBackdrop = document.querySelector(".modal-backdrop");
@@ -136,29 +147,23 @@ function saveChanges(itemId) {
     renderStaffList();
 }
 
-
-
-// Function to confirm item deletion
-function confirmDelete(itemId) {
-    // Set up the confirmation modal
-    const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
-    const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+// Function to confirm delete before actually deleting
+function confirmDelete(itemId, editItemModal) {
+    const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationDeleteItemModal"));
 
     // Show the confirmation modal
     confirmationModal.show();
 
-    // Handle delete button click
-    confirmDeleteBtn.onclick = () => {
-        // Remove the modal backdrop
-        const modalBackdrop = document.querySelector(".modal-backdrop");
-        if (modalBackdrop) {
-            modalBackdrop.parentNode.removeChild(modalBackdrop);
-        }
-
+    // Handle delete confirmation
+    const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+    confirmDeleteBtn.onclick = function () {
         // Call the deleteItem function
         deleteItem(itemId);
 
-        // Close the confirmation modal after deletion
+        // Hide the edit modal after deletion
+        editItemModal.hide();
+
+        // Hide the confirmation modal after deletion
         confirmationModal.hide();
     };
 }
@@ -171,13 +176,28 @@ function deleteItem(itemId) {
     // Remove the item from the staff list
     staffList.splice(itemIndex, 1);
 
-    // Close the confirmation modal after deletion
-    const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
-    confirmationModal.hide();
-
     // Render the updated staff list
     renderStaffList();
+
+    // Remove the modal backdrop
+    removeModalBackdrop();
 }
+
+// Function to remove the modal backdrop
+function removeModalBackdrop() {
+    const modalBackdrops = document.querySelectorAll('.modal-backdrop');
+    modalBackdrops.forEach(backdrop => {
+        backdrop.parentNode.removeChild(backdrop);
+    });
+
+    // Ensure the body doesn't have the modal-open class, which may be causing the overlay
+    document.body.classList.remove('modal-open');
+}
+
+
+
+
+
 
 // Function to sort staff list by date added in descending order
 function sortByDateAdded() {
@@ -240,7 +260,7 @@ document.getElementById('addRequestBtn').addEventListener('click', function () {
     });
 });
 
-// Event listener for "Submit Request" button click
+
 document.getElementById('submitRequestBtn').addEventListener('click', function () {
     // Retrieve input values
     var itemName = document.getElementById('itemName').value.trim();
@@ -260,15 +280,21 @@ document.getElementById('submitRequestBtn').addEventListener('click', function (
 
         addStaffItem(itemName, category, lastLocation, dateLost, itemDescription, image);
 
-    
+        // Close the "Add Request" modal after adding a new staff item
         const addRequestModal = new bootstrap.Modal(document.getElementById("addRequestModal"));
         addRequestModal.hide();
-    } else {    
+
+        // Remove the modal backdrop manually
+        const modalBackdrop = document.querySelector(".modal-backdrop");
+        if (modalBackdrop) {
+            modalBackdrop.parentNode.removeChild(modalBackdrop);
+        }
+    } else {
         alert('Please fill in all required fields.');
     }
 });
 
-
+// Update the event listener in requestsContainer to handle the "Status" button and modal
 document.getElementById('requestsContainer').addEventListener('click', function (event) {
     const target = event.target;
 
@@ -276,18 +302,78 @@ document.getElementById('requestsContainer').addEventListener('click', function 
     const itemId = target.getAttribute('data-id');
 
     if (action && itemId) {
-
         if (action === 'viewDetails') {
             viewDetails(parseInt(itemId, 10));
         } else if (action === 'editItem') {
             editItem(parseInt(itemId, 10));
-        } else if (action === 'confirmDelete') {
-            confirmDelete(parseInt(itemId, 10));
         } else if (action === 'textStudent') {
             console.log('Text Student button clicked for item ID:', itemId);
+        } else if (action === 'status') {
+            // Show the status modal
+            const statusModal = new bootstrap.Modal(document.getElementById("statusModal"));
+            statusModal.show();
+
+            // Handle status selection
+            const statusButtons = document.querySelectorAll('#statusModal button[data-status]');
+            statusButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const selectedStatus = this.getAttribute('data-status');
+                    console.log(`Status selected for item ID ${itemId}: ${selectedStatus}`);
+
+                    // Handle dynamic content based on status
+                    const foundOptions = document.getElementById('foundOptions');
+                    const returnedOptions = document.getElementById('returnedOptions');
+
+                    if (selectedStatus === 'Found') {
+                        foundOptions.style.display = 'block';
+                        returnedOptions.style.display = 'none'; // Hide "Returned" options initially
+                    } else {
+                        foundOptions.style.display = 'none';
+                        returnedOptions.style.display = 'none';
+                    }
+                });
+            });
+
+            // Handle "Returned" and "Not Returned" options
+            const statusOptionButtons = document.querySelectorAll('#statusModal button[data-status-option]');
+            statusOptionButtons.forEach(optionButton => {
+                optionButton.addEventListener('click', function () {
+                    const selectedStatusOption = this.getAttribute('data-status-option');
+                    console.log(`Status Option selected for item ID ${itemId}: ${selectedStatusOption}`);
+
+                    // Handle dynamic content based on status option
+                    const returnedOptions = document.getElementById('returnedOptions');
+                    if (selectedStatusOption === 'Returned') {
+                        returnedOptions.style.display = 'block';
+                    } else {
+                        returnedOptions.style.display = 'none';
+                    }
+                });
+            });
+
+            // Handle the "Confirm" button click
+            const confirmStatusBtn = document.getElementById('confirmStatusBtn');
+            confirmStatusBtn.addEventListener('click', function () {
+                // Get the selected status
+                const selectedStatus = document.querySelector('#statusModal button[data-status][aria-pressed="true"]').getAttribute('data-status');
+
+                // Get additional options for "Found" status
+                const locationFound = document.getElementById('locationFound').value;
+
+                // Get additional options for "Returned" status
+                const dateReturned = document.getElementById('dateReturned').value;
+
+                console.log(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
+
+                // You can add logic here to update the status and additional details in your data structure
+
+                // Close the modal
+                statusModal.hide();
+            });
         }
     }
 });
+
 
 document.getElementById('sortByDateAddedBtn').addEventListener('click', function () {
     sortByDateAdded();
@@ -296,6 +382,7 @@ document.getElementById('sortByDateAddedBtn').addEventListener('click', function
 document.getElementById('sortByDateLostBtn').addEventListener('click', function () {
     sortByDateLost();
 });
+
 document.getElementById('searchBtn').addEventListener('click', function () {
     performSearch();
 });
@@ -333,28 +420,37 @@ function renderFilteredItems(filteredItems) {
     // Clear previous list
     staffListElement.innerHTML = "";
 
-    // Render each filtered item
+    // Render each staff item
     filteredItems.forEach((staffItem) => {
         const listItem = document.createElement("li");
         listItem.className = "list-group-item custom-list-item";
 
+        // Format the date as "MM/DD/YYYY"
         const formattedDateAdded = new Date(staffItem.dateAdded).toLocaleDateString('en-US');
 
-        listItem.innerHTML = `
-            <div class="custom-list-item-content">
-                <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
-                <p class="mb-1">Category: ${staffItem.category}</p>
-            </div>
-            <div class="custom-list-item-buttons">
-                <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
-                <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
-                <button class="btn btn-danger btn-sm" data-action="confirmDelete" data-id="${staffItem.id}">Delete</button>
-                <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
-            </div>
-        `;
+// Update the listItem.innerHTML in renderStaffList
+listItem.innerHTML = `
+    <div class="custom-list-item-content">
+        <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
+        <p class="mb-1">Category: ${staffItem.category}</p>
+    </div>
+    <div class="custom-list-item-buttons">
+        <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
+        <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
+        <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
+        <button class="btn btn-secondary btn-sm" data-action="status" data-id="${staffItem.id}">Status</button>
+    </div>
+`;
+
+
 
         staffListElement.appendChild(listItem);
     });
 
     staffContainer.appendChild(staffListElement);
+}
+
+var darkmode = document.getElementById("darkModeBtn");
+darkmode.onclick = function () {
+    document.body.classList.toggle("dark-theme")
 }
