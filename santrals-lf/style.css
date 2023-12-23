@@ -66,7 +66,8 @@ button {
 
  
 .list-group-item {
-    background-color: #f1f1f1; 
+    border-color: var(--primary-color);
+    background-color: var(--secondary-color); 
     margin-bottom: 30px;  
 }
 
@@ -126,4 +127,23 @@ button {
 a {
     color: rgb(255, 255, 255); 
     text-decoration: none; 
+}
+:root{
+
+    --primary-color:black;
+    --secondary-color:white;
+
+}
+.dark-theme{
+   transition: 0.4s;
+    --primary-color:white;
+--secondary-color:black;
+
+    }
+body{
+ background-color: var(--secondary-color);
+}
+#listing-2{
+    background-color: #681414;
+    border-color: #970b0b;
 }
