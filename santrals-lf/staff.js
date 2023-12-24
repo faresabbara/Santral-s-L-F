@@ -20,8 +20,8 @@ function renderStaffList() {
         // Format the date as "MM/DD/YYYY"
         const formattedDateAdded = new Date(staffItem.dateAdded).toLocaleDateString('en-US');
 
-// Update the listItem.innerHTML in renderStaffList
-listItem.innerHTML = `
+        // Update the listItem.innerHTML in renderStaffList
+        listItem.innerHTML = `
     <div class="custom-list-item-content">
         <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
         <p class="mb-1">Category: ${staffItem.category}</p>
@@ -355,21 +355,30 @@ document.getElementById('requestsContainer').addEventListener('click', function 
             const confirmStatusBtn = document.getElementById('confirmStatusBtn');
             confirmStatusBtn.addEventListener('click', function () {
                 // Get the selected status
-                const selectedStatus = document.querySelector('#statusModal button[data-status][aria-pressed="true"]').getAttribute('data-status');
+                const selectedStatusButton = document.querySelector('#statusModal button[data-status][aria-pressed="true"]');
+                const selectedStatus = selectedStatusButton ? selectedStatusButton.getAttribute('data-status') : null;
 
                 // Get additional options for "Found" status
                 const locationFound = document.getElementById('locationFound').value;
-
-                // Get additional options for "Returned" status
                 const dateReturned = document.getElementById('dateReturned').value;
 
-                console.log(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
+                // Check if both date found and location found are required
+                const requiresDateFoundAndLocation = selectedStatus === 'Found';
 
-                // You can add logic here to update the status and additional details in your data structure
+                if (requiresDateFoundAndLocation && (!locationFound || !dateReturned)) {
+                    // Display an alert if both date found and location found are required but not filled
+                    alert('Please fill in both Date Found and Location Found.');
+                } else {
+                    // Continue with processing or updating your data structure
 
-                // Close the modal
-                statusModal.hide();
+                    // Display a confirmation (you can customize this part based on your needs)
+                    alert(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
+
+                    // Close the modal
+                    statusModal.hide();
+                }
             });
+
         }
     }
 });
@@ -428,8 +437,8 @@ function renderFilteredItems(filteredItems) {
         // Format the date as "MM/DD/YYYY"
         const formattedDateAdded = new Date(staffItem.dateAdded).toLocaleDateString('en-US');
 
-// Update the listItem.innerHTML in renderStaffList
-listItem.innerHTML = `
+        // Update the listItem.innerHTML in renderStaffList
+        listItem.innerHTML = `
     <div class="custom-list-item-content">
         <h5 class="mb-1">Item Name: ${staffItem.itemName}, Date Added: ${formattedDateAdded}</h5>
         <p class="mb-1">Category: ${staffItem.category}</p>
