@@ -1,5 +1,6 @@
 // Sample data for initial testing
 let staffList = [];
+document.addEventListener("DOMContentLoaded", function () {
 
 // Initialize the "Add Request" modal
 const addRequestModal = new bootstrap.Modal(document.getElementById("addRequestModal"));
@@ -27,10 +28,10 @@ function renderStaffList() {
         <p class="mb-1">Category: ${staffItem.category}</p>
     </div>
     <div class="custom-list-item-buttons">
-        <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
-        <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
-        <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
-        <button class="btn btn-secondary btn-sm" data-action="status" data-id="${staffItem.id}">Status</button>
+        <button class="btn btn-primary btn-sm me-2 listbtn" data-action="viewDetails"  data-id="${staffItem.id}">View Details</button>
+        <button class="btn btn-primary btn-sm me-2 listbtn" data-action="editItem"  data-id="${staffItem.id}">Edit</button>
+        <button class="btn btn-info btn-dark btn-sm listbtn" data-action="textStudent"  data-id="${staffItem.id}">Text Student</button>
+        <button class="btn btn-secondary btn-sm listbtn" data-action="status"  data-id="${staffItem.id}">Status</button>
     </div>
 `;
 
@@ -80,9 +81,9 @@ function viewDetails(itemId) {
 
     // Update the modal content with details
     document.getElementById("viewDetailsStudentID").innerText = `User ID: `;
-    document.getElementById("viewDetailsItemID").innerText = `Item ID:`;
-    document.getElementById("viewDetailsDateLost").innerText = `Date Lost: ${selectedItem.dateLost}`;
-    document.getElementById("viewDetailsItemDescription").innerText = `Description: ${selectedItem.itemDescription}`;
+    document.getElementById("viewDetailsItemID").innerText = `Item ID: `;
+    document.getElementById("viewDetailsDateLost").innerText =` Date Lost: ${selectedItem.dateLost}`;
+    document.getElementById("viewDetailsItemDescription").innerText =`Description: ${selectedItem.itemDescription}`;
     document.getElementById("viewDetailsLastLocation").innerText = `Last Location: ${selectedItem.lastLocation}`;
 
     // Display the image, if available
@@ -306,8 +307,10 @@ document.getElementById('requestsContainer').addEventListener('click', function 
             viewDetails(parseInt(itemId, 10));
         } else if (action === 'editItem') {
             editItem(parseInt(itemId, 10));
-        } else if (action === 'textStudent') {
-            console.log('Text Student button clicked for item ID:', itemId);
+        }else if (action === 'textStudent') {
+            // Show the staff chat modal
+            const staffChatModal = new bootstrap.Modal(document.getElementById("staffChatModal"));
+            staffChatModal.show();
         } else if (action === 'status') {
             // Show the status modal
             const statusModal = new bootstrap.Modal(document.getElementById("statusModal"));
@@ -444,10 +447,10 @@ function renderFilteredItems(filteredItems) {
         <p class="mb-1">Category: ${staffItem.category}</p>
     </div>
     <div class="custom-list-item-buttons">
-        <button class="btn btn-primary btn-sm me-2" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
-        <button class="btn btn-warning btn-sm me-2" data-action="editItem" data-id="${staffItem.id}">Edit</button>
-        <button class="btn btn-info btn-dark btn-sm" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
-        <button class="btn btn-secondary btn-sm" data-action="status" data-id="${staffItem.id}">Status</button>
+        <button class="btn btn-primary btn-sm me-2 listbtn" data-action="viewDetails" data-id="${staffItem.id}">View Details</button>
+        <button class="btn btn-warning btn-sm me-2 listbtn" data-action="editItem" data-id="${staffItem.id}">Edit</button>
+        <button class="btn btn-info btn-dark btn-sm listbtn" data-action="textStudent" data-id="${staffItem.id}">Text Student</button>
+        <button class="btn btn-secondary btn-sm listbtn" data-action="status" data-id="${staffItem.id}">Status</button>
     </div>
 `;
 
@@ -459,7 +462,13 @@ function renderFilteredItems(filteredItems) {
     staffContainer.appendChild(staffListElement);
 }
 
-var darkmode = document.getElementById("darkModeBtn");
-darkmode.onclick = function () {
-    document.body.classList.toggle("dark-theme")
-}
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var darkmode = document.getElementById("darkModeBtn");
+    if (darkmode) {
+        darkmode.onclick = function() {
+            document.body.classList.toggle("dark-theme");
+        };
+    }
+});
