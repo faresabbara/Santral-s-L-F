@@ -27,7 +27,7 @@
         </div>
 
         <!-- Navigation menu -->
-        <div class="container-fluid bg-menu p-4">
+        <div class="container-fluid bg-menu">
             <div class="row">
                 <div class="col buttons h5">
                     <!-- User icon and navigation links -->
@@ -36,12 +36,12 @@
                     </button> 
                     <a href="myrequests.html">My Requests</a>
                     <a href="L&FOfficeUser.html">L&F Office</a>
-                    <button>
+                    <button id="chatIconBtn" data-bs-toggle="modal" data-bs-target="#userChatModal">
                         <i class="bi bi-chat-dots-fill me-1 h5"></i>
                     </button>
                 </div>
 
-                <!-- Search bar (still in progress, doesn't work properly) -->
+                <!-- Search bar -->
                 <div class="search col-auto p-1">
                     <input type="text" class="search-input me-1 p-2" id="searchInput" placeholder="Search...">
                     <button class="search-btn" id="searchBtn"><i class="bi bi-search me-1 h4"></i></button>
@@ -85,7 +85,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addRequestModalLabel">Add Request</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="btx" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -151,8 +151,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submitRequestBtn">OK</button>
+                    <button type="button" class="btn btn-secondary custom-btn1" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary custom-btn1" id="submitRequestBtn">OK</button>
                 </div>
             </div>
         </div>
@@ -164,7 +164,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewDetailsModalLabel">Item Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="btx" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div>
@@ -186,18 +186,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="btx" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Buttons for profile actions -->
                     <div class="mb-3">
-                        <button class="btn btn-secondary btn-md" id="settingsBtn">Settings</button>
+                        <button class="btn btn-secondary btn-md custom-btn1" id="settingsBtn">Settings</button>
                     </div>
                     <div class="mb-3">
-                        <button class="btn btn-dark btn-md" id="darkModeBtn">Dark Mode</button>
+                        <button class="btn btn-dark btn-md custom-btn1" id="darkModeBtn">Dark Mode</button>
                     </div>
                     <div class="mb-3">
-                        <button class="btn btn-danger btn-md" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
+                        <button class="btn btn-danger btn-md custom-btn1" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
                     </div>
                 </div>
             </div>
@@ -210,18 +210,37 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="logoutConfirmationModalLabel">Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="btx" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to logout?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="pro.html" type="button" class="btn btn-danger" id="confirmLogoutBtn">Logout</a>
+                    <button type="button" class="btn btn-secondary custom-btn1" data-bs-dismiss="modal">Cancel</button>
+                    <a href="pro.html" type="button" class="btn btn-danger custom-btn1" id="confirmLogoutBtn">Logout</a>
                 </div>
             </div>
         </div>
     </div>
+<!-- "User Chat" modal -->
+<div class="modal fade" id="userChatModal" tabindex="-1" aria-labelledby="userChatModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userChatModalLabel">User Chat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Include your user_chat.html content here -->
+                <div id="chat-box">
+                    <ul id="messages"></ul>
+                    <input type="text" id="message-input" placeholder="Type your message...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script src="user.js"></script>
 </body>
 
