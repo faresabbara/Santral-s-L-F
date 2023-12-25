@@ -31,7 +31,7 @@
         </div>
 
         <!-- Navigation and Search Bar -->
-        <div class="container-fluid bg-menu p-4">
+        <div class="container-fluid bg-menu">
             <div class="row">
                 <div class="col buttons h5">
                     <!-- User icon and navigation links -->
@@ -95,7 +95,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="addRequestModalLabel">Add Request</h5>
                     <!-- Close button with data-bs-dismiss attribute -->
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="btx" aria-label="Close"></button>
 
                 </div>
                 <div class="modal-body">
@@ -165,8 +165,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submitRequestBtn">OK</button>
+                    <button type="button" class="btn btn-secondary custom-btn1" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary custom-btn1" id="submitRequestBtn">OK</button>
                 </div>
             </div>
         </div>
@@ -205,7 +205,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editItemModalLabel">Edit Item</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="btx" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Form inputs for editing details of the selected request -->
@@ -268,9 +268,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" id="deleteItemBtn" data-bs-toggle="modal" data-bs-target="#confirmationDeleteItemModal">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+                    <button class="btn btn-primary custom-btn1" id="deleteItemBtn" data-bs-toggle="modal" data-bs-target="#confirmationDeleteItemModal">Delete</button>
+                    <button type="button" class="btn btn-primary custom-btn1" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary custom-btn1" id="saveChangesBtn">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -325,18 +325,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="btx" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Buttons for profile actions -->
                 <div class="mb-3">
-                    <button class="btn btn-secondary btn-md" id="settingsBtn">Settings</button>
+                    <button class="btn btn-secondary btn-md custom-btn1" id="settingsBtn">Settings</button>
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-dark btn-md" id="darkModeBtn">Dark Mode</button>
+                    <button class="btn btn-dark btn-md custom-btn1" id="darkModeBtn">Dark Mode</button>
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-danger btn-md" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
+                    <button class="btn btn-danger btn-md custom-btn1" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
 
                 </div>
             </div>
@@ -356,8 +356,8 @@
                 Are you sure you want to logout?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="pro.html" type="button" class="btn btn-danger" id="confirmLogoutBtn">Logout</a>
+                <button type="button" class="btn btn-secondary listbtn" data-bs-dismiss="modal">Cancel</button>
+                <a href="pro.html" type="button" class="btn btn-danger custom-btn1" id="confirmLogoutBtn">Logout</a>
             </div>
         </div>
     </div>
@@ -373,8 +373,8 @@
             <div class="modal-body">
                 <p>Select the status for the item:</p>
                 <div class="btn-group" role="group" aria-label="Status">
-                <button class="btn btn-secondary" data-status="Lost">Lost</button>
-                <button class="btn btn-secondary" data-status="Found">Found</button>
+                <button class="btn btn-secondary custom-btn1" data-status="Lost">Lost</button>
+                <button class="btn btn-secondary custom-btn1" data-status="Found">Found</button>
               </div>
                 <!-- Additional fields for "Found" status -->
                 <div id="foundOptions" style="display: none;">
@@ -415,8 +415,8 @@
                     <div>
                         <label>Status:</label>
                         <div class="btn-group" role="group" aria-label="Status">
-                            <button type="button" class="btn btn-secondary" data-status-option="Not Returned">Not Returned</button>
-                            <button type="button" class="btn btn-secondary" data-status-option="Returned">Returned</button>
+                            <button type="button" class="btn btn-secondary custom-btn1 " data-status-option="Not Returned">Not Returned</button>
+                            <button type="button" class="btn btn-secondary custom-btn1" data-status-option="Returned">Returned</button>
                         </div>
                     </div>
 
@@ -428,11 +428,29 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="confirmStatusBtn">Confirm</button>
+                <button type="button" class="btn btn-primary listbtn" id="confirmStatusBtn">Confirm</button>
             </div>
         </div>
     </div>
 </div>
+    <!-- Add the modal HTML structure here -->
+    <div class="modal fade" id="staffChatModal" tabindex="-1" role="dialog" aria-labelledby="staffChatModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staffChatModalLabel">Staff Chat</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- You can add chat content here -->
+                    <iframe src="staff_chat.html" width="100%" height="400px" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="staff.js"></script>
 </body>
