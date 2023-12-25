@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
                 <div class="text-end">
-                    <button class="btn btn-primary mt-2 view-details-btn" 
+                    <button class="btn btn-primary mt-2 view-details-btn listbtn" 
                             data-bs-toggle="modal" 
                             data-bs-target="#viewDetailsModal" 
                             data-item-name="${itemName}" 
@@ -190,5 +190,14 @@ document.addEventListener("DOMContentLoaded", function () {
             requestList.appendChild(item);
         });
     }
+    
 
+});
+document.addEventListener("DOMContentLoaded", function () {
+    var darkmode = document.getElementById("darkModeBtn");
+    if (darkmode) {
+        darkmode.onclick = function() {
+            document.body.classList.toggle("dark-theme");
+        };
+    }
 });
