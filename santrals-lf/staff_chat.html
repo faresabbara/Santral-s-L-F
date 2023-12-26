@@ -29,24 +29,10 @@
 
 <body>
   <!-- Add a container with a unique ID for the staff chat modal -->
-  <div id="staffChatModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Staff Chat</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul id="messages"></ul>
-          <input type="text" id="message-input" placeholder="Type your message...">
-          <button onclick="sendMessage()">Send</button>
-        </div>
-        <div class="modal-footer">
-          <!-- Add a close button with the ID "closeChatBtn" -->
-          <button type="button" class="btn btn-secondary" id="closeChatBtn" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
+  <div id="chat-box">
+    <ul id="messages"></ul>
+    <input type="text" id="message-input" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
   </div>
 
   <script>
