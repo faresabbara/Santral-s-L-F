@@ -36,9 +36,9 @@
                     </button> 
                     <a href="myrequests.html">My Requests</a>
                     <a href="L&FOfficeUser.html">L&F Office</a>
-                    <button id="chatIconBtn" data-bs-toggle="modal" data-bs-target="#userChatModal">
+                    <a href="#" id="openChatModal">
                         <i class="bi bi-chat-dots-fill me-1 h5"></i>
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Search bar -->
@@ -222,25 +222,22 @@
             </div>
         </div>
     </div>
-<!-- "User Chat" modal -->
-<div class="modal fade" id="userChatModal" tabindex="-1" aria-labelledby="userChatModalLabel" aria-hidden="true">
+    <!-- Chat Popup Modal -->
+<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="userChatModalLabel">User Chat</h5>
+                <h5 class="modal-title" id="chatModalLabel">Chat</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Include your user_chat.html content here -->
-                <div id="chat-box">
-                    <ul id="messages"></ul>
-                    <input type="text" id="message-input" placeholder="Type your message...">
-                    <button onclick="sendMessage()">Send</button>
-                </div>
+                <!-- Embed your existing chat HTML and script here -->
+                <iframe src="user_chat.html" width="100%" height="400px" frameborder="0"></iframe>
             </div>
         </div>
     </div>
 </div>
+    
     <script src="user.js"></script>
 </body>
 
