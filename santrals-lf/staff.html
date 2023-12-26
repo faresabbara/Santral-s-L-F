@@ -433,18 +433,16 @@
         </div>
     </div>
 </div>
-    <!-- Add the modal HTML structure here -->
-    <div class="modal fade" id="staffChatModal" tabindex="-1" role="dialog" aria-labelledby="staffChatModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!-- Chat Popup Modal -->
+    <div class="modal fade" id="staffChatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staffChatModalLabel">Staff Chat</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="chatModalLabel">Chat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- You can add chat content here -->
+                    <!-- Embed your existing chat HTML and script here -->
                     <iframe src="staff_chat.html" width="100%" height="400px" frameborder="0"></iframe>
                 </div>
             </div>
