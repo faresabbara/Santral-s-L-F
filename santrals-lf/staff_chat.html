@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #chat-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    #messages {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Add a container with a unique ID for the staff chat modal -->
+  <div id="staffChatModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Staff Chat</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul id="messages"></ul>
+          <input type="text" id="message-input" placeholder="Type your message...">
+          <button onclick="sendMessage()">Send</button>
+        </div>
+        <div class="modal-footer">
+          <!-- Add a close button with the ID "closeChatBtn" -->
+          <button type="button" class="btn btn-secondary" id="closeChatBtn" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:4000');
+
+    socket.addEventListener('message', function (event) {
+      console.log('Received message:', event.data);
+
+      try {
+        var messagesList = document.getElementById('messages');
+        var parsedMessage = JSON.parse(event.data);
+
+        // Assuming the 'type' property is always present
+        var listItem = document.createElement('li');
+        listItem.textContent = `${parsedMessage.type === 'staff' ? 'Staff' : 'User'}: ${parsedMessage.text}`;
+        messagesList.appendChild(listItem);
+      } catch (error) {
+        console.error('Error parsing incoming message:', error);
+      }
+    });
+
+    function sendMessage() {
+      var messageInput = document.getElementById('message-input');
+      var message = messageInput.value;
+      if (message.trim() !== '') {
+        var messagesList = document.getElementById('messages');
+        var listItem = document.createElement('li');
+        listItem.textContent = 'Staff: ' + message;
+        messagesList.appendChild(listItem);
+
+        console.log('Sending message from Staff:', message);
+
+        socket.send(JSON.stringify({ text: message, type: 'staff' }));
+        messageInput.value = '';
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #chat-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    #messages {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="chat-box">
+    <ul id="messages"></ul>
+    <input type="text" id="message-input" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:4000');
+
+    socket.addEventListener('message', function (event) {
+      console.log('Received message:', event.data);
+
+      try {
+        var messagesList = document.getElementById('messages');
+        var parsedMessage = JSON.parse(event.data);
+
+        // Assuming the 'type' property is always present
+        var listItem = document.createElement('li');
+        listItem.textContent = `${parsedMessage.type === 'staff' ? 'Staff' : 'User'}: ${parsedMessage.text}`;
+        messagesList.appendChild(listItem);
+      } catch (error) {
+        console.error('Error parsing incoming message:', error);
+      }
+    });
+
+    function sendMessage() {
+      var messageInput = document.getElementById('message-input');
+      var message = messageInput.value;
+      if (message.trim() !== '') {
+        var messagesList = document.getElementById('messages');
+        var listItem = document.createElement('li');
+        listItem.textContent = 'User: ' + message;
+        messagesList.appendChild(listItem);
+
+        console.log('Sending message from User:', message);
+
+        socket.send(JSON.stringify({ text: message, type: 'user' }));
+        messageInput.value = '';
+      }
+    }
+  </script>
+</body>
+
+</html>
