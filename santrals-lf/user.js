@@ -8,6 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
         backdrop: 'static',
         keyboard: false,
     });
+        // Open the chat modal when the chat icon is clicked
+        document.getElementById('openChatModal').addEventListener('click', function () {
+            // Assuming you're using Bootstrap for modals
+            var chatModal = new bootstrap.Modal(document.getElementById('chatModal'), {
+                backdrop: 'static',
+                keyboard: false,
+            });
+            chatModal.show();
+        });
 
     var requestList = document.getElementById('requestList');
     var sortByDateLost = document.getElementById('sortByDateLost');
