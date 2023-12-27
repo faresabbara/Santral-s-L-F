@@ -21,13 +21,13 @@
                 </div>
                 <div class="col-auto ">
                     <!-- Logo image -->
-                    <img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo">
+                    <a href="https://www.bilgi.edu.tr/en/" > <img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo"></a>
                 </div>
             </div>
         </div>
 
         <!-- Navigation menu -->
-        <div class="container-fluid bg-menu p-4">
+        <div class="container-fluid bg-menu">
             <div class="row">
                 <div class="col buttons h5">
                     <!-- User icon and navigation links -->
@@ -49,9 +49,9 @@
             </div>
         </div>
 
+        <!-- Buttons for adding a request and sorting -->
         <div class="container mt-3">
             <div class="row">
-
 
                 <!-- Dropdown for sorting requests -->
                 <div class="col-auto ms-auto">
@@ -82,7 +82,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewDetailsModalLabel">Item Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="btx" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div>
@@ -98,29 +98,35 @@
         </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal-size">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!--profile modal-->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-size" id="profilem">
+        <div class="modal-content">
+            <div class="modal-header" id="profileheader">
+                <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Profile picture and name -->
+                <div class="profile-info">
+                    <div class="profile-details">
+                        <img src="img/Profile.png" alt="Profile Picture" class="profile-picture">
+                        <div class="name">
+                            <p id="userFirstName"></p>
+                            <p id="userLastName"></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <!-- Buttons for profile actions -->
-                    <div class="mb-3">
-                        <button class="btn btn-secondary btn-md" id="settingsBtn">Settings</button>
-                    </div>
-                    <div class="mb-3">
-                        <button class="btn btn-dark btn-md" id="darkModeBtn">Dark Mode</button>
-                    </div>
-                    <div class="mb-3">
-                        <button class="btn btn-danger btn-md" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
-                    </div>
+                <!-- Buttons for profile actions -->
+                <div class="profile-actions">
+                    <button class="btn btn-secondary btn-md custom-btn1" data-bs-toggle="modal" data-bs-target="#settingsModal" id="settingsBtn">Settings</button>
+                    <button class="btn btn-dark btn-md custom-btn1" id="darkModeBtn">Dark Mode</button>
+                    <button class="btn btn-danger btn-md custom-btn1" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Confirmation Modal for Logout -->
     <div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel" aria-hidden="true">
@@ -128,18 +134,60 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="logoutConfirmationModalLabel">Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="btx" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to logout?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="pro.html" type="button" class="btn btn-danger" id="confirmLogoutBtn">Logout</a>
+                    <button type="button" class="btn btn-secondary custom-btn1" data-bs-dismiss="modal">Cancel</button>
+                    <a href="pro.html" type="button" class="btn btn-danger custom-btn1" id="confirmLogoutBtn">Logout</a>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header mb-3">
+          <h5 class="modal-title" id="settingsModalLabel">User Settings</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btx"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3" id="settingsForm">
+            <div class="form-floating mt-3 mb-3 col-md-6">
+                <input type="text" class="form-control w-100 custom-label" id="settingsFirstName" readonly required>
+                <label for="settingsFirstName">First Name</label>
+              </div>
+            <div class="form-floating col-md-6">
+              <input type="text" class="form-control w-100 custom-label" id="settingsLastName" readonly required>
+              <label for="settingsLastName">Last Name</label>
+            </div>
+            <div class="form-floating  mt-3 mb-3 col-md-6">
+                <input type="email" class="form-control w-100 custom-label" id="settingsEmail" required>
+                <label for="settingsEmail">Email</label>
+              </div>
+            <div class="form-floating col-md-6">
+              <input type="tel" class="form-control w-100 custom-label" id="settingsPhoneNumber" required>
+              <label for="settingsPhoneNumber">Phone Number</label>
+            </div>
+            <div class="form-floating col-md-6">
+              <input type="password" class="form-control w-100 custom-label" id="settingsPassword" >
+              <label for="settingsPassword">New Password</label>
+            </div>
+            <div class="form-floating col-md-6">
+              <input type="password" class="form-control w-100 custom-label" id="settingsConfirmPassword" >
+              <label for="settingsConfirmPassword">Confirm Password</label>
+            </div>
+            <div class="modal-footer justify-content-md-center mt-3">
+              <button type="submit" class="btn btn-dark justify-content-md-end w-75 cen custom-btn">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
     <script src="user.js"></script>
 </body>
 
