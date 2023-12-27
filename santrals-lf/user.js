@@ -209,4 +209,105 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.classList.toggle("dark-theme");
         };
     }
+// Retrieve user information from local storage
+const storedEmail = localStorage.getItem('userEmail');
+const storedFirstName = localStorage.getItem('userFirstName');
+const storedLastName = localStorage.getItem('userLastName');
+const storedPhoneNumber = localStorage.getItem('userPhoneNumber');
+const storedpass = localStorage.getItem('userPassword');
+
+// Set retrieved user information in the settings modal fields
+document.getElementById('settingsEmail').value = storedEmail || '';
+document.getElementById('settingsFirstName').value = storedFirstName || '';
+document.getElementById('settingsLastName').value = storedLastName || '';
+document.getElementById('settingsPhoneNumber').value = storedPhoneNumber || '';
+document.getElementById('settingsPassword').value = storedpass || '';
+
+
+const settingsForm = document.getElementById('settingsForm');
+settingsForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+       
+    
+
+    // Retrieve values from the settings form
+    const newEmail = document.getElementById('settingsEmail').value.trim();
+    const newPhoneNumber = document.getElementById('settingsPhoneNumber').value.trim();
+    const newPassword = document.getElementById('settingsPassword').value.trim();
+    const confirmPassword = document.getElementById('settingsConfirmPassword').value.trim();
+    let finalPassword = localStorage.getItem('userPassword');
+
+    if (newEmail.length < 10 || newEmail.length > 320) {
+        alert('Email should be between 10 and 320 characters');
+        return;
+    }
+
+    // Validate phone numbers
+    if (newPhoneNumber.length !== 10) {
+        alert('Phone number should be 10 characters');
+        return;
+    }
+
+    // Check if the passwords match and are within the specified length range
+    if ((newPassword !== confirmPassword && newPassword !== '') ||
+        (newPassword.length > 0 && (newPassword.length < 8 || newPassword.length > 300))) {
+        alert('Passwords should be equal and between 8 and 300 characters');
+        return;
+    }
+    if (newPassword !== '' && confirmPassword !== '') {
+        finalPassword = newPassword;
+    }
+
+    // Ask for confirmation
+    const isConfirmed = confirm('Are you sure you want to save the changes?');
+
+    if (isConfirmed) {
+        // If the user confirms, proceed to save the updated information
+        localStorage.setItem('userEmail', newEmail);
+        localStorage.setItem('userPhoneNumber', newPhoneNumber);
+        localStorage.setItem('userPassword', finalPassword);
+
+        // Optionally, show a success message or perform other actions after saving changes
+
+        // Close the settings modal
+        const modalElement = document.getElementById('settingsModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
+    } else {
+        // If the user cancels, do not save the changes, revert email to the stored value
+        document.getElementById('settingsEmail').value = storedEmail || '';
+        document.getElementById('settingsPhoneNumber').value = storedPhoneNumber || '';
+        document.getElementById('settingsPassword').value = storedpass || '';
+        alert('Changes not saved');
+        const modalElement = document.getElementById('settingsModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
+    }
+});
+
+document.getElementById('settingsModal').addEventListener('hidden.bs.modal', function () {
+    const newPasswordField = document.getElementById('settingsPassword');
+    const confirmPasswordField = document.getElementById('settingsConfirmPassword');
+    
+    newPasswordField.value = '';
+    confirmPasswordField.value = '';
+});
+
+document.getElementById('settingsModal').addEventListener('hide.bs.modal', function () {
+    document.getElementById('settingsEmail').value = storedEmail || '';
+    document.getElementById('settingsFirstName').value = storedFirstName || '';
+    document.getElementById('settingsLastName').value = storedLastName || '';
+    document.getElementById('settingsPhoneNumber').value = storedPhoneNumber || '';
+    const newPasswordField = document.getElementById('settingsPassword');
+    const confirmPasswordField = document.getElementById('settingsConfirmPassword');
+    
+    newPasswordField.value = '';
+    confirmPasswordField.value = '';
+});
+
+
+// Display retrieved first name and last name in the modal
+document.getElementById('userFirstName').textContent = storedFirstName || 'First Name';
+document.getElementById('userLastName').textContent = storedLastName || 'Last Name';
+
 });
