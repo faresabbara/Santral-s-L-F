@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Items Found</title>
+    <title>Item Found</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -25,13 +25,13 @@
                     <h1><a href="staff.html">Santral's L&F</a></h1>
                 </div>
                 <div class="col-auto ">
-                    <img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo">
+                    <a href="https://www.bilgi.edu.tr/en/" > <img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo"></a>
                 </div>
             </div>
         </div>
 
         <!-- Navigation and Search Bar -->
-        <div class="container-fluid bg-menu p-4">
+        <div class="container-fluid bg-menu">
             <div class="row">
                 <div class="col buttons h5">
                     <!-- User icon and navigation links -->
@@ -39,7 +39,7 @@
                         <i class="bi bi-person-circle me-1 h1"></i>
                     </button>                    
                     <a href="staff.html">Home</a>
-                    <a href="L&FOfficeStaff.html">L&F Office</a> 
+                    <a href="L&FOfficeStaff.html">L&F Office</a>
                     <button>
                         <i class="bi bi-chat-dots-fill me-1 h5"></i>
                     </button>
@@ -53,10 +53,9 @@
             </div>
         </div>
 
-        <!-- Add Request and Sort By Section -->
+        <!--Sort By Section -->
         <div class="container mt-3">
             <div class="row">
-
                 <!-- Dropdown for sorting requests -->
                 <div class="col-auto ms-auto">
                     <div class="dropdown">
@@ -106,26 +105,30 @@
             </div>
         </div>
     </div>
-
-<!-- Profile Modal -->
+<!--profile modal-->
 <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered custom-modal-size">
+    <div class="modal-dialog modal-dialog-centered custom-modal-size" id="profilem">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" id="profileheader">
                 <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <!-- Profile picture and name -->
+                <div class="profile-info">
+                    <div class="profile-details">
+                        <img src="img/Profile.png" alt="Profile Picture" class="profile-picture">
+                        <div class="name">
+                            <p id="userFirstName"></p>
+                            <p id="userLastName"></p>
+                        </div>
+                    </div>
+                </div>
                 <!-- Buttons for profile actions -->
-                <div class="mb-3">
-                    <button class="btn btn-secondary btn-md" id="settingsBtn">Settings</button>
-                </div>
-                <div class="mb-3">
-                    <button class="btn btn-dark btn-md" id="darkModeBtn">Dark Mode</button>
-                </div>
-                <div class="mb-3">
-                    <button class="btn btn-danger btn-md" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
-
+                <div class="profile-actions">
+                    <button class="btn btn-secondary btn-md custom-btn1" data-bs-toggle="modal" data-bs-target="#settingsModal" id="settingsBtn">Settings</button>
+                    <button class="btn btn-dark btn-md custom-btn1" id="darkModeBtn">Dark Mode</button>
+                    <button class="btn btn-danger btn-md custom-btn1" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
                 </div>
             </div>
         </div>
@@ -144,13 +147,12 @@
                 Are you sure you want to logout?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="pro.html" type="button" class="btn btn-danger" id="confirmLogoutBtn">Logout</a>
+                <button type="button" class="btn btn-secondary listbtn" data-bs-dismiss="modal">Cancel</button>
+                <a href="pro.html" type="button" class="btn btn-danger custom-btn1" id="confirmLogoutBtn">Logout</a>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Update the modal content to include options for "Returned" and "Not Returned" -->
 <div class="modal" id="statusModal">
     <div class="modal-dialog">
@@ -162,8 +164,8 @@
             <div class="modal-body">
                 <p>Select the status for the item:</p>
                 <div class="btn-group" role="group" aria-label="Status">
-                <button class="btn btn-secondary" data-status="Lost">Lost</button>
-                <button class="btn btn-secondary" data-status="Found">Found</button>
+                <button class="btn btn-secondary custom-btn1" data-status="Lost">Lost</button>
+                <button class="btn btn-secondary custom-btn1" data-status="Found">Found</button>
               </div>
                 <!-- Additional fields for "Found" status -->
                 <div id="foundOptions" style="display: none;">
@@ -204,8 +206,8 @@
                     <div>
                         <label>Status:</label>
                         <div class="btn-group" role="group" aria-label="Status">
-                            <button type="button" class="btn btn-secondary" data-status-option="Not Returned">Not Returned</button>
-                            <button type="button" class="btn btn-secondary" data-status-option="Returned">Returned</button>
+                            <button type="button" class="btn btn-secondary custom-btn1 " data-status-option="Not Returned">Not Returned</button>
+                            <button type="button" class="btn btn-secondary custom-btn1" data-status-option="Returned">Returned</button>
                         </div>
                     </div>
 
@@ -217,7 +219,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="confirmStatusBtn">Confirm</button>
+                <button type="button" class="btn btn-primary listbtn" id="confirmStatusBtn">Confirm</button>
             </div>
         </div>
     </div>
