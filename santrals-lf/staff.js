@@ -315,10 +315,8 @@ document.getElementById('requestsContainer').addEventListener('click', function 
             viewDetails(parseInt(itemId, 10));
         } else if (action === 'editItem') {
             editItem(parseInt(itemId, 10));
-        }else if (action === 'textStudent') {
-            // Show the staff chat modal
-            const staffChatModal = new bootstrap.Modal(document.getElementById("staffChatModal"));
-            staffChatModal.show();
+        } else if (action === 'textStudent') {
+            console.log('Text Student button clicked for item ID:', itemId);
         } else if (action === 'status') {
             // Show the status modal
             const statusModal = new bootstrap.Modal(document.getElementById("statusModal"));
@@ -330,6 +328,15 @@ document.getElementById('requestsContainer').addEventListener('click', function 
                 button.addEventListener('click', function () {
                     const selectedStatus = this.getAttribute('data-status');
                     console.log(`Status selected for item ID ${itemId}: ${selectedStatus}`);
+
+                    // Toggle active class for Lost and Found buttons
+                    if (selectedStatus === 'Found') {
+                        document.querySelector('.lost-btn').classList.remove('active');
+                        document.querySelector('.found-btn').classList.add('active');
+                    } else {
+                        document.querySelector('.found-btn').classList.remove('active');
+                        document.querySelector('.lost-btn').classList.add('active');
+                    }
 
                     // Handle dynamic content based on status
                     const foundOptions = document.getElementById('foundOptions');
@@ -352,48 +359,56 @@ document.getElementById('requestsContainer').addEventListener('click', function 
                     const selectedStatusOption = this.getAttribute('data-status-option');
                     console.log(`Status Option selected for item ID ${itemId}: ${selectedStatusOption}`);
 
+                    // Toggle active class for Returned and Not Returned buttons
+                    if (selectedStatusOption === 'Returned') {
+                        document.querySelector('.not-returned-btn').classList.remove('active');
+                        document.querySelector('.returned-btn').classList.add('active');
+                    } else {
+                        document.querySelector('.returned-btn').classList.remove('active');
+                        document.querySelector('.not-returned-btn').classList.add('active');
+                    }
+
                     // Handle dynamic content based on status option
                     const returnedOptions = document.getElementById('returnedOptions');
                     if (selectedStatusOption === 'Returned') {
                         returnedOptions.style.display = 'block';
-                    } else {
+                     } else {
                         returnedOptions.style.display = 'none';
                     }
                 });
             });
 
-// Handle the "Confirm" button click
-const confirmStatusBtn = document.getElementById('confirmStatusBtn');
-confirmStatusBtn.addEventListener('click', function () {
-    // Get the selected status
-    const selectedStatusButton = document.querySelector('#statusModal button[data-status][aria-pressed="true"]');
-    const selectedStatus = selectedStatusButton ? selectedStatusButton.getAttribute('data-status') : null;
+            // Handle the "Confirm" button click
+            const confirmStatusBtn = document.getElementById('confirmStatusBtn');
+            confirmStatusBtn.addEventListener('click', function () {
+                // Get the selected status
+                const selectedStatusButton = document.querySelector('#statusModal button[data-status][aria-pressed="true"]');
+                const selectedStatus = selectedStatusButton ? selectedStatusButton.getAttribute('data-status') : null;
 
-    // Get additional options for "Found" status
-    const locationFound = document.getElementById('locationFound').value;
-    const dateReturned = document.getElementById('dateReturned').value;
+                // Get additional options for "Found" status
+                const locationFound = document.getElementById('locationFound').value;
+                const dateReturned = document.getElementById('dateReturned').value;
 
-    // Check if both date found and location found are required
-    const requiresDateFoundAndLocation = selectedStatus === 'Found';
+                // Check if both date found and location found are required
+                const requiresDateFoundAndLocation = selectedStatus === 'Found';
 
-    if (requiresDateFoundAndLocation && (!locationFound || !dateReturned)) {
-        // Display an alert if both date found and location found are required but not filled
-        alert('Please fill in both Date Found and Location Found.');
-    } else {
-        // Continue with processing or updating your data structure
+                if (requiresDateFoundAndLocation && (!locationFound || !dateReturned)) {
+                    // Display an alert if both date found and location found are required but not filled
+                    alert('Please fill in both Date Found and Location Found.');
+                } else {
+                    // Continue with processing or updating your data structure
 
-        // Display a confirmation (you can customize this part based on your needs)
-        alert(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
+                    // Display a confirmation (you can customize this part based on your needs)
+                    alert(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
 
-        // Hide the modal using Bootstrap's modal method
-        const statusModal = new bootstrap.Modal(document.getElementById("statusModal"));
-        statusModal.hide();
-    }
+                    // Close the modal
+                    statusModal.hide();
+                }
+            });
+
+        }
+    }
 });
-        }
-    }
-});
-
 
 document.getElementById('sortByDateAddedBtn').addEventListener('click', function () {
     sortByDateAdded();
