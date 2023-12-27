@@ -415,3 +415,10 @@ transition: 0.3s;
     text-align: center;
     margin-left: 130px; /* Adjust the left margin to move the title to the right */
   }
+  .btn.active {
+    /* Your active button styles here */
+    /* For example, change background color */
+    background-color: var(--hover1-color);
+    color: #fff;
+    /* Additional styles */
+}
