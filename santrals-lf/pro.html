@@ -190,7 +190,11 @@ bt3.onclick = function() {
        
         return; // Prevent navigating to different page
     }
-
+    localStorage.setItem('userEmail', emailInput);
+        localStorage.setItem('userFirstName', firstNameInput);
+        localStorage.setItem('userLastName', lastNameInput);
+        localStorage.setItem('userPhoneNumber', phoneNumberInput);
+        localStorage.setItem('userPassword', passwordInput1);
     // If all validations pass, navigate to the different page
     window.location.href = 'pro.html';
 
