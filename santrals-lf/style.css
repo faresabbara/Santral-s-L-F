@@ -422,3 +422,8 @@ transition: 0.3s;
     color: #fff;
     /* Additional styles */
 }
+#campusimg{
+    height: 400px;
+    width: 70%;
+    flex: auto;
+}
