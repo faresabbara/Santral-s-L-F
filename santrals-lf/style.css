@@ -269,9 +269,21 @@ transition: 0.3s;
     .header-bg a {
         font-size: 25px; /* Adjust the font size as needed */
     }
+    .bg-menu{
+        padding: 10px;
+    }
+    #requestsContainer {
+        max-height: 600px; /* Adjust 100px according to your header/footer height */
+        overflow-y: auto;
+      }
+
+      #profilem {
+        margin: 10% auto; /* Adjust the top margin to center the modal vertically */
+      }
+    
 }
 
-@media (max-width: 422px) {
+@media (max-width: 400px) {
     /* Adjust font size for smaller screens */
     .buttons a {
         font-size: 16px; /* Increase font size for readability */
@@ -327,4 +339,79 @@ transition: 0.3s;
     .header-bg a {
         font-size: 20px; /* Adjust the font size as needed */
     }
+
+    #requestsContainer {
+        max-height: 380px; /* Adjust 100px according to your header/footer height */
+        overflow-y: auto;
+      }
+
+
+      
 }
+#chatty{
+    background-color:var(--accent-color);
+}
+#chatModalLabel{
+    color: rgb(255, 255, 255);
+}
+.custom-modal-size {
+    max-width: 400px; /* Adjust the maximum width of the modal */
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px; /* Adding padding to the profile info for better spacing */
+  }
+  
+  .profile-details {
+    display: flex;
+    align-items: center;
+    flex-direction: column; /* Displaying profile picture and name in a column */
+  }
+  
+  .profile-details p {
+    margin: 0;
+  }
+  .profile-picture {
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    border-radius: 50%;
+    margin-bottom: 15px; /* Increase spacing between picture and name */
+  }
+  
+  
+  .name {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px; /* Add margin top to create space between first and last names */
+  }
+  
+  .name p {
+    margin: 0; /* Resetting the default margin for paragraphs */
+    margin-right: 5px; /* Adding right margin between first and last names */
+  }
+
+  .profile-actions {
+    margin-top: 20px; /* Spacing between name and buttons */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .profile-actions button {
+    margin-right: 5px; /* Adjust the margin between buttons */
+  }
+  
+
+  #profileheader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #profileModalLabel{
+    text-align: center;
+    margin-left: 130px; /* Adjust the left margin to move the title to the right */
+  }
