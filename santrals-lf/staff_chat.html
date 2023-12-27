@@ -5,6 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Staff Chat</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,27 +16,44 @@
       padding: 20px;
     }
 
-    #chat-box {
-      border: 1px solid #ccc;
-      padding: 10px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
     #messages {
       list-style-type: none;
       padding: 0;
       margin: 0;
+      display: flex;
+      flex-direction: column;
+      /* Display messages in a column */
+    }
+
+    .message {
+      padding: 8px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      max-width: 80%;
+    }
+
+    /* Staff messages are green and on the right */
+    .staff-message {
+      background-color: #DCF8C6;
+      /* Light green for staff messages */
+      align-self: flex-end;
+      /* Align to the right */
+    }
+
+    /* Other party's messages are grey and on the left */
+    .other-message {
+      background-color: #D3D3D3;
+      /* Light grey for other party's messages */
+      align-self: flex-start;
+      /* Align to the left */
     }
   </style>
+
 </head>
 
 <body>
-  <!-- Add a container with a unique ID for the staff chat modal -->
   <div id="chat-box">
     <ul id="messages"></ul>
-    <input type="text" id="message-input" placeholder="Type your message...">
-    <button onclick="sendMessage()">Send</button>
   </div>
 
   <script>
@@ -47,6 +68,8 @@
 
         // Assuming the 'type' property is always present
         var listItem = document.createElement('li');
+        var messageClass = parsedMessage.type === 'staff' ? 'staff-message' : 'other-message'; // Corrected class name
+        listItem.className = 'message ' + messageClass;
         listItem.textContent = `${parsedMessage.type === 'staff' ? 'Staff' : 'User'}: ${parsedMessage.text}`;
         messagesList.appendChild(listItem);
       } catch (error) {
@@ -60,7 +83,8 @@
       if (message.trim() !== '') {
         var messagesList = document.getElementById('messages');
         var listItem = document.createElement('li');
-        listItem.textContent = 'Staff: ' + message;
+        listItem.className = 'message staff-message'; // Always style the staff's message as green
+        listItem.textContent = 'You: ' + message;
         messagesList.appendChild(listItem);
 
         console.log('Sending message from Staff:', message);
@@ -70,6 +94,10 @@
       }
     }
   </script>
+  <div style="text-align: center; position: fixed; bottom: 0; width: 100%;">
+    <input type="text" id="message-input" placeholder="Type your message..." style="width: 80%;">
+    <a href="#" onclick="sendMessage()"><i class="bi bi-send"></i></a>
+  </div>
 </body>
 
 </html>
