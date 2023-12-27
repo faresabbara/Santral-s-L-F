@@ -83,7 +83,7 @@ function viewDetails(itemId) {
     document.getElementById("viewDetailsItemID").innerText = `Item ID: `;
     document.getElementById("viewDetailsDateLost").innerText =` Date Lost: ${selectedItem.dateLost}`;
     document.getElementById("viewDetailsItemDescription").innerText =`Description: ${selectedItem.itemDescription}`;
-    document.getElementById("viewDetailsLastLocation").innerText = `Last Location: ${selectedItem.lastLocation}`;
+    document.getElementById("viewDetailsLastLocation").innerText =`Last Location: ${selectedItem.lastLocation}`;
 
     // Display the image, if available
     const imageView = document.getElementById("imageView");
@@ -316,7 +316,8 @@ document.getElementById('requestsContainer').addEventListener('click', function 
         } else if (action === 'editItem') {
             editItem(parseInt(itemId, 10));
         } else if (action === 'textStudent') {
-            console.log('Text Student button clicked for item ID:', itemId);
+            const staffChatModal = new bootstrap.Modal(document.getElementById("staffChatModal"));
+            staffChatModal.show();
         } else if (action === 'status') {
             // Show the status modal
             const statusModal = new bootstrap.Modal(document.getElementById("statusModal"));
@@ -378,36 +379,37 @@ document.getElementById('requestsContainer').addEventListener('click', function 
                 });
             });
 
-            // Handle the "Confirm" button click
-            const confirmStatusBtn = document.getElementById('confirmStatusBtn');
-            confirmStatusBtn.addEventListener('click', function () {
-                // Get the selected status
-                const selectedStatusButton = document.querySelector('#statusModal button[data-status][aria-pressed="true"]');
-                const selectedStatus = selectedStatusButton ? selectedStatusButton.getAttribute('data-status') : null;
+// Handle the "Confirm" button click
+const confirmStatusBtn = document.getElementById('confirmStatusBtn');
+confirmStatusBtn.addEventListener('click', function () {
+    // Get the selected status
+    const selectedStatusButton = document.querySelector('#statusModal button[data-status][aria-pressed="true"]');
+    const selectedStatus = selectedStatusButton ? selectedStatusButton.getAttribute('data-status') : null;
 
-                // Get additional options for "Found" status
-                const locationFound = document.getElementById('locationFound').value;
-                const dateReturned = document.getElementById('dateReturned').value;
+    // Get additional options for "Found" status
+    const locationFound = document.getElementById('locationFound').value;
+    const dateReturned = document.getElementById('dateReturned').value;
 
-                // Check if both date found and location found are required
-                const requiresDateFoundAndLocation = selectedStatus === 'Found';
+    // Check if both date found and location found are required
+    const requiresDateFoundAndLocation = selectedStatus === 'Found';
 
-                if (requiresDateFoundAndLocation && (!locationFound || !dateReturned)) {
-                    // Display an alert if both date found and location found are required but not filled
-                    alert('Please fill in both Date Found and Location Found.');
-                } else {
-                    // Continue with processing or updating your data structure
+    if (requiresDateFoundAndLocation && (!locationFound || !dateReturned)) {
+         // Display an alert if both date found and location found are required but not filled
+         alert('Please fill in both Date Found and Location Found.');
+        } else {
+            // Continue with processing or updating your data structure
 
-                    // Display a confirmation (you can customize this part based on your needs)
-                    alert(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
+             // Display a confirmation (you can customize this part based on your needs)
+             alert(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
 
-                    // Close the modal
-                    statusModal.hide();
-                }
-            });
+            // Close the modal
+            const statusModal = new bootstrap.Modal(document.getElementById("statusModal"));
+            statusModal.hide();
+        }
+});
 
-        }
-    }
+        }
+    }
 });
 
 document.getElementById('sortByDateAddedBtn').addEventListener('click', function () {
