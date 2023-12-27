@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-auto ">
                     <!-- Logo image -->
-                    <img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo">
+                  <a href="https://www.bilgi.edu.tr/en/" > <img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo"></a>
                 </div>
             </div>
         </div>
@@ -95,6 +95,7 @@
                     <div class="mb-3">
                         <label for="category">Select Category</label>
                         <select class="form-select" id="category" required onkeydown="moveToNextInput(event, 'lastLocation')">
+                            <option value="" disabled selected>Select a category:</option>
                             <option value="Personal Items">Personal Items</option>
                             <option value="Electronics">Electronics</option>
                             <option value="Transportation">Transportation</option>
@@ -111,6 +112,7 @@
                     <div class="mb-3">
                         <label for="lastLocation">Select Location</label>
                         <select class="form-select" id="lastLocation" required onkeydown="moveToNextInput(event, 'dateLost')">
+                            <option value="" disabled selected>Select a location:</option>
                             <option value="E1">E1</option>
                             <option value="E2">E2</option>
                             <option value="E3">E3</option>
@@ -180,29 +182,35 @@
         </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal-size">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
-                    <button id="btx" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!--profile modal-->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-size" id="profilem">
+        <div class="modal-content">
+            <div class="modal-header" id="profileheader">
+                <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Profile picture and name -->
+                <div class="profile-info">
+                    <div class="profile-details">
+                        <img src="img/Profile.png" alt="Profile Picture" class="profile-picture">
+                        <div class="name">
+                            <p id="userFirstName"></p>
+                            <p id="userLastName"></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <!-- Buttons for profile actions -->
-                    <div class="mb-3">
-                        <button class="btn btn-secondary btn-md custom-btn1" id="settingsBtn">Settings</button>
-                    </div>
-                    <div class="mb-3">
-                        <button class="btn btn-dark btn-md custom-btn1" id="darkModeBtn">Dark Mode</button>
-                    </div>
-                    <div class="mb-3">
-                        <button class="btn btn-danger btn-md custom-btn1" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
-                    </div>
+                <!-- Buttons for profile actions -->
+                <div class="profile-actions">
+                    <button class="btn btn-secondary btn-md custom-btn1" data-bs-toggle="modal" data-bs-target="#settingsModal" id="settingsBtn">Settings</button>
+                    <button class="btn btn-dark btn-md custom-btn1" id="darkModeBtn">Dark Mode</button>
+                    <button class="btn btn-danger btn-md custom-btn1" id="logoutBtn" data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">Logout</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Confirmation Modal for Logout -->
     <div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel" aria-hidden="true">
@@ -226,8 +234,8 @@
 <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chatModalLabel">Chat</h5>
+            <div class="modal-header" id="chatty">
+                <h5 class="modal-title" id="chatModalLabel">Life Support</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -237,6 +245,48 @@
         </div>
     </div>
 </div>
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header mb-3">
+          <h5 class="modal-title" id="settingsModalLabel">User Settings</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btx"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3" id="settingsForm">
+            <div class="form-floating mt-3 mb-3 col-md-6">
+                <input type="text" class="form-control w-100 custom-label" id="settingsFirstName" readonly required>
+                <label for="settingsFirstName">First Name</label>
+              </div>
+            <div class="form-floating col-md-6">
+              <input type="text" class="form-control w-100 custom-label" id="settingsLastName" readonly required>
+              <label for="settingsLastName">Last Name</label>
+            </div>
+            <div class="form-floating  mt-3 mb-3 col-md-6">
+                <input type="email" class="form-control w-100 custom-label" id="settingsEmail" required>
+                <label for="settingsEmail">Email</label>
+              </div>
+            <div class="form-floating col-md-6">
+              <input type="tel" class="form-control w-100 custom-label" id="settingsPhoneNumber" required>
+              <label for="settingsPhoneNumber">Phone Number</label>
+            </div>
+            <div class="form-floating col-md-6">
+              <input type="password" class="form-control w-100 custom-label" id="settingsPassword" >
+              <label for="settingsPassword">New Password</label>
+            </div>
+            <div class="form-floating col-md-6">
+              <input type="password" class="form-control w-100 custom-label" id="settingsConfirmPassword" >
+              <label for="settingsConfirmPassword">Confirm Password</label>
+            </div>
+            <div class="modal-footer justify-content-md-center mt-3">
+              <button type="submit" class="btn btn-dark justify-content-md-end w-75 cen custom-btn">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
     
     <script src="user.js"></script>
 </body>
