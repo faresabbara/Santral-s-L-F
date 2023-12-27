@@ -359,80 +359,77 @@
             </div>
         </div>
     </div>
-    <!-- Update the modal content to include options for "Returned" and "Not Returned" -->
-    <div class="modal" id="statusModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Select Status</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Select the status for the item:</p>
-                    <div class="btn-group" role="group" aria-label="Status">
-                        <button class="btn btn-secondary custom-btn1" data-status="Lost">Lost</button>
-                        <button class="btn btn-secondary custom-btn1" data-status="Found">Found</button>
+<!-- Update the modal content to include options for "Returned" and "Not Returned" -->
+<div class="modal" id="statusModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="btx" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Select the status for the item:</p>
+                <div class="btn-group" role="group" aria-label="Status">
+                <button class="btn btn-secondary custom-btn1 lost-btn" data-status="Lost">Lost</button>
+                <button class="btn btn-secondary custom-btn1 found-btn" data-status="Found">Found</button>
+              </div>
+                <!-- Additional fields for "Found" status -->
+                <div id="foundOptions" style="display: none;">
+                    <label for="dateFound">Date Found:</label>
+                    <input type="date" id="dateFound" class="form-control mb-2">
+
+                    <div class="mb-3">
+                        <label for="editLastLocation">Select Location</label>
+                        <select class="form-select" id="editLastLocation" required onkeydown="moveToNextInput(event, 'editItemDateLost')">
+                            <option value="E1">E1</option>
+                            <option value="E2">E2</option>
+                            <option value="E3">E3</option>
+                            <option value="E4">E4</option>
+                            <option value="E5">E5</option>
+                            <option value="E6">E6</option>
+                            <option value="E7">E7</option>
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="EN1">EN1</option>
+                            <option value="EN2">EN2</option>
+                            <option value="ÇSM">ÇSM</option>
+                            <option value="Library">Library</option>
+                            <option value="Faculty of Architecture">Faculty of Architecture</option>
+                            <option value="Museum of Energy">Museum of Energy</option>
+                            <option value="Starbucks">Starbucks</option>
+                            <option value="Espressolab">Espressolab</option>
+                            <option value="Lokma">Lokma</option>
+                            <option value="Nero Cafe">Nero Cafe</option>
+                            <option value="Sant">Sant</option>
+                            <option value="Gastronomy Kitchen">Gastronomy Kitchen</option>
+                            <option value="Cafeteria">Cafeteria</option>
+                            <option value="BLAB">BLAB</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                    <!-- Additional fields for "Found" status -->
-                    <div id="foundOptions" style="display: none;">
-                        <label for="dateFound">Date Found:</label>
-                        <input type="date" id="dateFound" class="form-control mb-2">
 
-                        <div class="mb-3">
-                            <label for="editLastLocation">Select Location</label>
-                            <select class="form-select" id="editLastLocation" required
-                                onkeydown="moveToNextInput(event, 'editItemDateLost')">
-                                <option value="E1">E1</option>
-                                <option value="E2">E2</option>
-                                <option value="E3">E3</option>
-                                <option value="E4">E4</option>
-                                <option value="E5">E5</option>
-                                <option value="E6">E6</option>
-                                <option value="E7">E7</option>
-                                <option value="A1">A1</option>
-                                <option value="A2">A2</option>
-                                <option value="EN1">EN1</option>
-                                <option value="EN2">EN2</option>
-                                <option value="ÇSM">ÇSM</option>
-                                <option value="Library">Library</option>
-                                <option value="Faculty of Architecture">Faculty of Architecture</option>
-                                <option value="Museum of Energy">Museum of Energy</option>
-                                <option value="Starbucks">Starbucks</option>
-                                <option value="Espressolab">Espressolab</option>
-                                <option value="Lokma">Lokma</option>
-                                <option value="Nero Cafe">Nero Cafe</option>
-                                <option value="Sant">Sant</option>
-                                <option value="Gastronomy Kitchen">Gastronomy Kitchen</option>
-                                <option value="Cafeteria">Cafeteria</option>
-                                <option value="BLAB">BLAB</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-
-                        <!-- Options for "Returned" and "Not Returned" -->
-                        <div>
-                            <label>Status:</label>
-                            <div class="btn-group" role="group" aria-label="Status">
-                                <button type="button" class="btn btn-secondary custom-btn1 "
-                                    data-status-option="Not Returned">Not Returned</button>
-                                <button type="button" class="btn btn-secondary custom-btn1"
-                                    data-status-option="Returned">Returned</button>
-                            </div>
-                        </div>
-
-                        <!-- Additional fields for "Returned" status -->
-                        <div id="returnedOptions" style="display: none;">
-                            <label for="dateReturned">Date Returned:</label>
-                            <input type="date" id="dateReturned" class="form-control mb-2">
+                    <!-- Options for "Returned" and "Not Returned" -->
+                    <div>
+                        <label>Status:</label>
+                        <div class="btn-group" role="group" aria-label="Status">
+                            <button type="button" class="btn btn-secondary custom-btn1 not-returned-btn" data-status-option="Not Returned">Not Returned</button>
+                            <button type="button" class="btn btn-secondary custom-btn1 returned-btn" data-status-option="Returned">Returned</button>
                         </div>
                     </div>
+
+                    <!-- Additional fields for "Returned" status -->
+                    <div id="returnedOptions" style="display: none;">
+                        <label for="dateReturned">Date Returned:</label>
+                        <input type="date" id="dateReturned" class="form-control mb-2">
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary listbtn" id="confirmStatusBtn">Confirm</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary listbtn" id="confirmStatusBtn">Confirm</button>
             </div>
         </div>
     </div>
+</div>
     <!-- Chat Popup Modal -->
     <div class="modal fade" id="staffChatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
