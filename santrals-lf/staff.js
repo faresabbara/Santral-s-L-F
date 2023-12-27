@@ -75,7 +75,6 @@ function addStaffItem(itemName, category, lastLocation, dateLost, itemDescriptio
 }
 
 
-// Function to view details of a staff item
 function viewDetails(itemId) {
     const selectedItem = staffList.find((item) => item.id === itemId);
 
@@ -99,6 +98,7 @@ function viewDetails(itemId) {
     viewDetailsModal.show();
 }
 
+
 function editItem(itemId) {
     const selectedItem = staffList.find((item) => item.id === itemId);
 
@@ -108,6 +108,9 @@ function editItem(itemId) {
     document.getElementById("editLastLocation").value = selectedItem.lastLocation;
     document.getElementById("editItemDateLost").value = selectedItem.dateLost;
     document.getElementById("editItemDescription").value = selectedItem.itemDescription;
+
+    // Add this line to update the editItemImage input
+    document.getElementById("editItemImage").value = ''; // Clear the input to avoid issues with file input styling
 
     // Initialize the edit modal
     const editItemModal = new bootstrap.Modal(document.getElementById("editItemModal"));
@@ -124,29 +127,34 @@ function editItem(itemId) {
     deleteItemBtn.addEventListener('click', () => confirmDelete(itemId, editItemModal));
 }
 
-// Function to save changes after editing
+
 function saveChanges(itemId, modalInstance) {
     const selectedItemIndex = staffList.findIndex((item) => item.id === itemId);
 
     // Update item details with edited values
     staffList[selectedItemIndex].itemName = document.getElementById("editItemName").value;
-    staffList[selectedItemIndex].category = document.getElementById("editItemCategory").value; // Use the category from the dropdown
+    staffList[selectedItemIndex].category = document.getElementById("editItemCategory").value;
     staffList[selectedItemIndex].lastLocation = document.getElementById("editLastLocation").value;
     staffList[selectedItemIndex].dateLost = document.getElementById("editItemDateLost").value;
     staffList[selectedItemIndex].itemDescription = document.getElementById("editItemDescription").value;
+
+    // Add this code to handle the image input
+    const editItemImageInput = document.getElementById("editItemImage");
+    if (editItemImageInput.files.length > 0) {
+        const selectedImage = editItemImageInput.files[0];
+        staffList[selectedItemIndex].image = URL.createObjectURL(selectedImage);
+    }
 
     // Close the modal after saving changes
     modalInstance.hide();
 
     // Remove the modal backdrop
-    const modalBackdrop = document.querySelector(".modal-backdrop");
-    if (modalBackdrop) {
-        modalBackdrop.parentNode.removeChild(modalBackdrop);
-    }
+    removeModalBackdrop();
 
     // Render the updated staff list
     renderStaffList();
 }
+
 
 // Function to confirm delete before actually deleting
 function confirmDelete(itemId, editItemModal) {
@@ -354,34 +362,34 @@ document.getElementById('requestsContainer').addEventListener('click', function 
                 });
             });
 
-            // Handle the "Confirm" button click
-            const confirmStatusBtn = document.getElementById('confirmStatusBtn');
-            confirmStatusBtn.addEventListener('click', function () {
-                // Get the selected status
-                const selectedStatusButton = document.querySelector('#statusModal button[data-status][aria-pressed="true"]');
-                const selectedStatus = selectedStatusButton ? selectedStatusButton.getAttribute('data-status') : null;
+// Handle the "Confirm" button click
+const confirmStatusBtn = document.getElementById('confirmStatusBtn');
+confirmStatusBtn.addEventListener('click', function () {
+    // Get the selected status
+    const selectedStatusButton = document.querySelector('#statusModal button[data-status][aria-pressed="true"]');
+    const selectedStatus = selectedStatusButton ? selectedStatusButton.getAttribute('data-status') : null;
 
-                // Get additional options for "Found" status
-                const locationFound = document.getElementById('locationFound').value;
-                const dateReturned = document.getElementById('dateReturned').value;
+    // Get additional options for "Found" status
+    const locationFound = document.getElementById('locationFound').value;
+    const dateReturned = document.getElementById('dateReturned').value;
 
-                // Check if both date found and location found are required
-                const requiresDateFoundAndLocation = selectedStatus === 'Found';
+    // Check if both date found and location found are required
+    const requiresDateFoundAndLocation = selectedStatus === 'Found';
 
-                if (requiresDateFoundAndLocation && (!locationFound || !dateReturned)) {
-                    // Display an alert if both date found and location found are required but not filled
-                    alert('Please fill in both Date Found and Location Found.');
-                } else {
-                    // Continue with processing or updating your data structure
+    if (requiresDateFoundAndLocation && (!locationFound || !dateReturned)) {
+        // Display an alert if both date found and location found are required but not filled
+        alert('Please fill in both Date Found and Location Found.');
+    } else {
+        // Continue with processing or updating your data structure
 
-                    // Display a confirmation (you can customize this part based on your needs)
-                    alert(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
+        // Display a confirmation (you can customize this part based on your needs)
+        alert(`Status: ${selectedStatus}, Location Found: ${locationFound}, Date Returned: ${dateReturned}`);
 
-                    // Close the modal
-                    statusModal.hide();
-                }
-            });
-
+        // Hide the modal using Bootstrap's modal method
+        const statusModal = new bootstrap.Modal(document.getElementById("statusModal"));
+        statusModal.hide();
+    }
+});
         }
     }
 });
