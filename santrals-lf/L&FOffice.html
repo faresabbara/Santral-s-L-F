@@ -13,38 +13,46 @@
 
 <body>
     <!-- Header section with logo and navigation -->
-    <header class="text-white">
+    <header class="text-white fixed-top">
         <div class="container-fluid header-bg p-4">
             <div class="row">
                 <div class="col my-auto mx-auto">
-                    <h1><a href="user.html">Santral's L&F</a></h1>
+                    <h1><a href="staff.html">Santral's L&F</a></h1>
                 </div>
                 <div class="col-auto ">
-                    <!-- Logo image -->
-                    <a href="https://www.bilgi.edu.tr/en/" > <img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo"></a>
+                    <a href="https://www.bilgi.edu.tr/en/"><img src="img/bilgi-logotype-en-light.png" alt="#" class="bilgi-logo"></a>
                 </div>
             </div>
         </div>
 
-        <!-- Navigation menu -->
+        <!-- Navigation and Search Bar -->
         <div class="container-fluid bg-menu">
             <div class="row">
                 <div class="col buttons h5">
                     <!-- User icon and navigation links -->
                     <button data-bs-toggle="modal" data-bs-target="#profileModal">
                         <i class="bi bi-person-circle me-1 h1"></i>
-                    </button> 
-                    <a href="user.html">Home</a>
-                    <a href="myrequests.html">My Requests</a>
+                    </button>                    
+                    <a href="staff.html">Home</a>
+                    <a href="Itemsfound.html">Items Found</a>
                     <button>
                         <i class="bi bi-chat-dots-fill me-1 h5"></i>
                     </button>
                 </div>
             </div>
         </div>
+        
+        <!-- Image Section with margin -->
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col">
+                    <!-- Add your image here -->
+                    <img src="img/campusmap.jpg" id="campusimg" alt="Campus Map">
+                </div>
+            </div>
+        </div>
 
     </header>
-
 <!--profile modal-->
 <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered custom-modal-size" id="profilem">
