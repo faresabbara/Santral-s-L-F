@@ -29,7 +29,7 @@ button {
 
 .bg-menu {
     background-color: var(--highlight-color);
-    padding: 30px;
+    padding: 10px;
     
 }
 
@@ -167,6 +167,7 @@ a {
     --containerbtn-color:#970b0b;
     --hover-color:#7e0a0a;
     --hover1-color:#7e0a0a;
+    --email-color: blue;
 }
 
 body {
@@ -183,6 +184,7 @@ body {
     --containerbtn-color:#A9A9A9;
     --hover-color:#8b8b8b;
     --hover1-color:#0a0a0a;
+    --email-color: rgb(128, 204, 91);
 }
 
 .modal-content{
@@ -425,5 +427,24 @@ transition: 0.3s;
 #campusimg{
     height: 400px;
     width: 70%;
-    flex: auto;
+   
+}
+/* Add this in your existing style.css file or within <style> tags in <head> */
+.image-with-text {
+    display: flex;
+    align-items: center;
+}
+
+.image-caption {
+    margin-left: 10px; /* Adjust this value to add space between the image and text */
+}
+#officdirection{
+    color: #0a0a0a;
+}
+#textnexttopic{
+    color: var(--secondary-color);
+}
+/* Add this to your existing style.css or within <style> tags in <head> */
+.image-caption a {
+    color: var(--email-color); /* Adjust the color to your preference */
 }
