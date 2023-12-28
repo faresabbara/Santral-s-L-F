@@ -201,13 +201,6 @@ document.addEventListener("DOMContentLoaded", function () {
         sortedItemList = items.slice(); // Update the sorted items after sorting
     }
 
-    var darkmode = document.getElementById("darkModeBtn");
-    if (darkmode) {
-        darkmode.onclick = function () {
-            document.body.classList.toggle("dark-theme");
-        };
-    }
-
     // Retrieve user information from local storage
     const storedEmail = localStorage.getItem('userEmail');
     const storedFirstName = localStorage.getItem('userFirstName');
@@ -305,3 +298,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('userFirstName').textContent = storedFirstName || 'First Name';
     document.getElementById('userLastName').textContent = storedLastName || 'Last Name';
 });
+var darkmode = document.getElementById("darkModeBtn");
+if (darkmode) {
+    darkmode.onclick = function () {
+        document.body.classList.toggle("dark-theme");
+    };
+}
